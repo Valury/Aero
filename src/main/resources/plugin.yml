@@ -1,0 +1,16 @@
+name: Aurora
+version: 1.0
+api-version: 1.17
+author: Jaren
+main: wtf.jaren.aurora.spigot.Aurora
+depend:
+  - LuckPerms
+softdepend:
+  - PlaceholderAPI
+  - Vault
+
+commands:
+  opme:
+    permission: aurora.opme
+  acb:
+    permission: aurora.acb
