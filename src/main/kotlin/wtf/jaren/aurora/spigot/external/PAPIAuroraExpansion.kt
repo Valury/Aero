@@ -32,7 +32,7 @@ class PAPIAuroraExpansion : PlaceholderExpansion(), Relational {
             return player.suffix.replace('§', '&')
         }
         if (identifier == "nick") {
-            return player.aurora.nick ?: player.name
+            return player.aurora.effectiveNick ?: player.name
         }
         return null
     }
@@ -40,7 +40,7 @@ class PAPIAuroraExpansion : PlaceholderExpansion(), Relational {
     override fun onPlaceholderRequest(one: Player, two: Player, identifier: String): String? {
         if (identifier == "nick") {
             return if (one.aurora.preferences.showNicks) {
-                two.aurora.nick ?: two.name
+                two.aurora.effectiveNick ?: two.name
             } else {
                 two.name
             }

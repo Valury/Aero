@@ -132,7 +132,7 @@ class DisguiseCommand(private val plugin: Aurora) {
             Document("\$set", Document("disguise.rank", rank))
         )
         if (player.aurora.disguise == null) {
-            player.aurora.disguise = AuroraDisguise(null, rank, null)
+            player.aurora.disguise = AuroraDisguise(null, rank, null, null)
         } else {
             player.aurora.disguise!!.rank = rank
         }

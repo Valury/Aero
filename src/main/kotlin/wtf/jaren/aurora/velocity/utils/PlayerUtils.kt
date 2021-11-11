@@ -39,7 +39,7 @@ val Player.prefix: String
     }
 
 val Player.displayName: TextComponent
-    get() = LegacyComponentSerializer.legacySection().deserialize(this.prefix + (this.aurora.nick ?: this.username))
+    get() = LegacyComponentSerializer.legacySection().deserialize(this.prefix + (this.aurora.effectiveNick ?: this.username))
 
 val Player.fullDisplayName: TextComponent
     get() {
@@ -58,7 +58,7 @@ val Player.fullDisplayName: TextComponent
 
 fun Player.displayNameFor(player: Player): TextComponent {
     val name = if (player.aurora.preferences.showNicks) {
-        this.aurora.nick ?: this.username
+        this.aurora.effectiveNick ?: this.username
     } else {
         this.username
     }

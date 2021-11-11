@@ -26,12 +26,21 @@ class NickCommand(val plugin: Aurora) : RawCommand {
             }
         }
         if (newNick == "reset") {
-            player.aurora.nick = null
-            plugin.database.getCollection("players").updateOne(
-                Filters.eq("_id", player.uniqueId), Document(
-                    "\$unset", Document("nick", true)
+            if (player.aurora.disguise == null) {
+                player.aurora.nick = null
+                plugin.database.getCollection("players").updateOne(
+                    Filters.eq("_id", player.uniqueId), Document(
+                        "\$unset", Document("nick", true)
+                    )
                 )
-            )
+            } else {
+                player.aurora.disguise!!.nick = null
+                plugin.database.getCollection("players").updateOne(
+                    Filters.eq("_id", player.uniqueId), Document(
+                        "\$unset", Document("disguise.nick", true)
+                    )
+                )
+            }
             player.currentServer.orElse(null)
                 ?.sendPluginMessage(MinecraftChannelIdentifier.create("aurora", "sync"), SyncUtils.refreshPlayer)
             player.sendMessage(Component.text("Success!", NamedTextColor.GREEN))
@@ -45,12 +54,21 @@ class NickCommand(val plugin: Aurora) : RawCommand {
             player.sendMessage(Component.text("That nick is already in use.", NamedTextColor.RED))
             return
         }
-        player.aurora.nick = newNick
-        plugin.database.getCollection("players").updateOne(
-            Filters.eq("_id", player.uniqueId), Document(
-                "\$set", Document("nick", newNick)
+        if (player.aurora.disguise == null) {
+            player.aurora.nick = newNick
+            plugin.database.getCollection("players").updateOne(
+                Filters.eq("_id", player.uniqueId), Document(
+                    "\$set", Document("nick", newNick)
+                )
             )
-        )
+        } else {
+            player.aurora.disguise!!.nick = newNick
+            plugin.database.getCollection("players").updateOne(
+                Filters.eq("_id", player.uniqueId), Document(
+                    "\$set", Document("disguise.nick", newNick)
+                )
+            )
+        }
         player.sendMessage(Component.text("Success!", NamedTextColor.GREEN))
         player.currentServer.orElse(null)
             ?.sendPluginMessage(MinecraftChannelIdentifier.create("aurora", "sync"), SyncUtils.refreshPlayer)

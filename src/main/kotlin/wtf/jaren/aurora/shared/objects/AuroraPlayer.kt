@@ -14,6 +14,8 @@ data class AuroraPlayer(
     var vanished: Boolean,
     var disguise: AuroraDisguise?
 ) {
+    val effectiveNick: String?
+        get() = if (disguise != null) disguise!!.nick else nick
     fun toDocument(): Document {
         val document = Document("_id", _id)
             .append("ip", ip)

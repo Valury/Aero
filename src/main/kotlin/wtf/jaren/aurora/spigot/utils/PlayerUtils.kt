@@ -44,7 +44,7 @@ val Player.suffix: String
 
 fun Player.displayNameFor(player: Player): TextComponent {
     val name = if (player.aurora.preferences.showNicks) {
-        this.aurora.nick ?: this.name
+        this.aurora.effectiveNick ?: this.name
     } else {
         this.name
     }
@@ -56,7 +56,7 @@ fun Player.displayNameFor(player: Player): TextComponent {
 fun Player.updateDisplayName() {
     this.displayName(
         LegacyComponentSerializer.legacySection().deserialize(
-            this.prefix + (this.aurora.nick ?: this.name) + this.suffix
+            this.prefix + (this.aurora.effectiveNick ?: this.name) + this.suffix
         )
     )
 }
