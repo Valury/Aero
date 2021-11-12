@@ -13,14 +13,14 @@ import wtf.jaren.aurora.spigot.external.AuroraEconomy
 
 class Aurora : JavaPlugin() {
     val database: MongoDatabase =
-        MongoClients.create("mongodb://aurora:csShJjhyd2YL8LxD@ax101.jaren.wtf/aurora?uuidRepresentation=STANDARD")
+        MongoClients.create(System.getenv("MONGO_CONNECTION_STRING"))
             .getDatabase("aurora")
 
     val playerManager = PlayerManager(this)
 
     val guildManager = GuildManager(this)
 
-    val serverName: String = System.getProperty("aurora.name", "Unknown")
+    val serverName: String = System.getenv("NAME") ?: "Unknown"
 
     override fun onEnable() {
         instance = this

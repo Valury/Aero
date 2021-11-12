@@ -26,13 +26,13 @@ import wtf.jaren.aurora.velocity.plan.PlanAPI
 )
 class Aurora @Inject constructor(val server: ProxyServer, val logger: Logger) {
 
-    val isProd = System.getProperties().getProperty("aurora.prod", "false").toBoolean()
+    val isProd = (System.getenv("PROD") ?: "false").toBoolean()
 
     val isStable = true
 
     @JvmField
     val database: MongoDatabase =
-        MongoClients.create("mongodb://aurora:csShJjhyd2YL8LxD@ax101.jaren.wtf/aurora?uuidRepresentation=STANDARD")
+        MongoClients.create(System.getenv("MONGO_CONNECTION_STRING"))
             .getDatabase("aurora")
 
     val playerManager = PlayerManager(this)
