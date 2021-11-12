@@ -41,6 +41,13 @@ dependencies {
 }
 
 publishing {
+    repositories {
+        maven {
+            name = "valury"
+            url = uri("https://repo.jaren.wtf/repository/valury/")
+            credentials(PasswordCredentials::class)
+        }
+    }
     publications {
         create<MavenPublication>("maven") {
             groupId = "wtf.jaren"
