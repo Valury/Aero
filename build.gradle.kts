@@ -50,7 +50,7 @@ publishing {
     }
     publications {
         create<MavenPublication>("maven") {
-            groupId = "wtf.jaren"
+            groupId = "wtf.jaren.aurora"
             artifactId = "aurora"
             version = "1.0"
 
