@@ -2,10 +2,17 @@ plugins {
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "7.1.0"
     kotlin("jvm") version "1.5.31"
-    kotlin("kapt") version "1.5.21"
+    kotlin("kapt") version "1.6.0-RC2"
 }
 
 repositories {
+    maven {
+        url = uri("https://repo.jaren.wtf/repository/valury/")
+        credentials {
+            username = property("valuryUsername") as String
+            password = property("valuryPassword") as String
+        }
+    }
     mavenCentral()
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
     maven("https://papermc.io/repo/repository/maven-public/")
@@ -19,11 +26,11 @@ dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.0.0")
     kapt("com.velocitypowered:velocity-api:3.0.0")
 
-    compileOnly("io.papermc.paper:paper-api:1.17-R0.1-SNAPSHOT")
+    compileOnly("wtf.jaren.valury:valury-api:1.17.1-R0.1-SNAPSHOT")
 
     compileOnly("net.luckperms:api:5.3")
 
-    implementation("org.mongodb:mongodb-driver-sync:4.3.2")
+    implementation("org.mongodb:mongodb-driver-sync:4.3.4")
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.2.Final")
 
@@ -52,7 +59,7 @@ publishing {
         create<MavenPublication>("maven") {
             groupId = "wtf.jaren.aurora"
             artifactId = "aurora"
-            version = "1.0"
+            version = "1.0-SNAPSHOT"
 
             from(components["kotlin"])
         }
