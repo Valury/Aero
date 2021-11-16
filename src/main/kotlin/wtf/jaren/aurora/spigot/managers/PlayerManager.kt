@@ -67,6 +67,10 @@ class PlayerManager(private val plugin: Aurora) {
 
     fun handleQuit(player: Player) {
         plugin.guildManager.handlePlayerQuit(player)
-        players.remove(player.uniqueId)
+        Bukkit.getScheduler().runTaskLater(plugin, Runnable {
+            if (Bukkit.getPlayer(player.uniqueId) == null) {
+                players.remove(player.uniqueId)
+            }
+        }, 5L);
     }
 }
