@@ -49,7 +49,6 @@ class GuildManager(val plugin: Aurora) {
             name,
             false,
             10,
-            0,
             ArrayList(
                 listOf(
                     "Leader",

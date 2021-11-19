@@ -11,7 +11,6 @@ class Guild(
     var name: String?,
     var public: Boolean,
     val slots: Int,
-    var balance: Long,
     val ranks: ArrayList<String>,
     val permissions: GuildPermissions,
     var color: TextColor
@@ -21,7 +20,6 @@ class Guild(
             .append("name", name)
             .append("public", public)
             .append("slots", slots)
-            .append("balance", balance)
             .append("ranks", ranks)
             .append("permissions", permissions.toDocument())
             .append("color", color.value())
@@ -37,7 +35,6 @@ class Guild(
                 document.getString("name"),
                 document.getBoolean("public"),
                 document.getInteger("slots"),
-                document.getLong("balance"),
                 ArrayList(document.getList("ranks", String::class.java)),
                 GuildPermissions.fromDocument(document.get("permissions", Document::class.java)),
                 TextColor.color(document.getInteger("color"))

@@ -136,20 +136,6 @@ class GuildCommand(private val plugin: Aurora) {
                 .executes { context: CommandContext<CommandSource> -> disband(context) }
                 .build()
             )
-            /*.then(LiteralArgumentBuilder
-                .literal<CommandSource>("deposit")
-                .then(RequiredArgumentBuilder.argument<CommandSource, Double>("amount", DoubleArgumentType.doubleArg(0.01))
-                    .executes { context: CommandContext<CommandSource> -> deposit(context) }
-                    .build())
-                .build()
-            )
-            .then(LiteralArgumentBuilder
-                .literal<CommandSource>("withdraw")
-                .then(RequiredArgumentBuilder.argument<CommandSource, Double>("amount", DoubleArgumentType.doubleArg(0.01))
-                    .executes { context: CommandContext<CommandSource> -> withdraw(context) }
-                    .build())
-                .build()
-            )*/
             .then(LiteralArgumentBuilder
                 .literal<CommandSource>("leaderboard")
                 .then(RequiredArgumentBuilder.argument<CommandSource, Int>("page", IntegerArgumentType.integer(1))
@@ -911,91 +897,6 @@ class GuildCommand(private val plugin: Aurora) {
             server.playersConnected.firstOrNull()?.currentServer?.orElse(null)
                 ?.sendPluginMessage(MinecraftChannelIdentifier.create("aurora", "sync"), SyncUtils.deleteGuild(guild))
         }
-        return 0
-    }
-
-    private fun deposit(context: CommandContext<CommandSource>): Int {
-        val player = context.source as Player
-        val playerGuild = player.aurora.guild
-        if (playerGuild == null) {
-            player.sendMessage(Component.text("You are not in a guild.", NamedTextColor.RED))
-            return 0
-        }
-        val amount = (context.getArgument("amount", Double::class.java) * 100).roundToLong()
-        val updateResult = plugin.database.getCollection("players").updateOne(
-            Filters.and(
-                Filters.eq("_id", player.uniqueId),
-                Filters.gte("balance", amount)
-            ),
-            Document("\$inc", Document("balance", -amount))
-        )
-        if (updateResult.matchedCount == 0L) {
-            player.sendMessage(Component.text("You do not have enough coins to do this.", NamedTextColor.RED))
-            return 0
-        }
-        player.aurora.balance -= amount
-        plugin.database.getCollection("guilds").updateOne(
-            Filters.eq("_id", playerGuild._id),
-            Document("\$inc", Document("balance", amount))
-        )
-        plugin.guildManager.getGuild(playerGuild._id).balance += amount
-        player.currentServer.orElse(null)
-            ?.sendPluginMessage(MinecraftChannelIdentifier.create("aurora", "sync"), SyncUtils.refreshPlayer)
-        player.sendMessage(
-            Component.text()
-                .append(Guild.PREFIX)
-                .append(Component.text("You have deposited ", Guild.COLOR_SCHEME))
-                .append(Component.text(NumberUtils.formatBalance(amount), NamedTextColor.GREEN))
-                .append(Component.text(" into the guild."))
-                .build()
-        )
-        return 0
-    }
-
-    private fun withdraw(context: CommandContext<CommandSource>): Int {
-        val player = context.source as Player
-        val playerGuild = player.aurora.guild
-        if (playerGuild == null) {
-            player.sendMessage(Component.text("You are not in a guild.", NamedTextColor.RED))
-            return 0
-        }
-        val guild = guildManager.getGuild(playerGuild._id)
-        if (!guild.permissions.canWithdraw(player.aurora)) {
-            player.sendMessage(Component.text("You do not have permission to do this.", NamedTextColor.RED))
-            return 0
-        }
-        val amount = (context.getArgument("amount", Double::class.java) * 100).roundToLong()
-        if (guild.balance < amount) {
-            player.sendMessage(Component.text("Your guild does not have enough coins.", NamedTextColor.RED))
-            return 0
-        }
-        val updateResult = plugin.database.getCollection("guilds").updateOne(
-            Filters.and(
-                Filters.eq("_id", guild._id),
-                Filters.gte("balance", amount)
-            ),
-            Document("\$inc", Document("balance", -amount))
-        )
-        if (updateResult.matchedCount == 0L) {
-            player.sendMessage(Component.text("Something went wrong...", NamedTextColor.RED))
-            return 0
-        }
-        guild.balance -= amount
-        plugin.database.getCollection("players").updateOne(
-            Filters.eq("_id", player.uniqueId),
-            Document("\$inc", Document("balance", amount))
-        )
-        player.aurora.balance += amount
-        player.currentServer.orElse(null)
-            ?.sendPluginMessage(MinecraftChannelIdentifier.create("aurora", "sync"), SyncUtils.refreshPlayer)
-        player.sendMessage(
-            Component.text()
-                .append(Guild.PREFIX)
-                .append(Component.text("You have withdrawn ", Guild.COLOR_SCHEME))
-                .append(Component.text(NumberUtils.formatBalance(amount), NamedTextColor.GREEN))
-                .append(Component.text(" from the guild."))
-                .build()
-        )
         return 0
     }
 
