@@ -30,7 +30,7 @@ dependencies {
 
     compileOnly("net.luckperms:api:5.3")
 
-    implementation("org.mongodb:mongodb-driver-sync:4.3.4")
+    implementation("org.mongodb:mongodb-driver-sync:4.4.0")
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.2.Final")
 
@@ -42,7 +42,9 @@ dependencies {
 
     compileOnly("me.clip:placeholderapi:2.10.10")
 
-    implementation("net.dv8tion:JDA:4.3.0_277")
+    implementation("net.dv8tion:JDA:4.3.0_277") {
+        exclude(module = "opus-java")
+    }
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
 }
