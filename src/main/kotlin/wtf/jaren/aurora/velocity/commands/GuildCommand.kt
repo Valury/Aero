@@ -170,9 +170,9 @@ class GuildCommand(private val plugin: Aurora) {
                 .append(Component.newline())
                 .append(Component.text("Public", Guild.COLOR_SCHEME))
                 .append(Component.text(": ${if (guild.public) "Yes" else "No"}"))
-                //.append(Component.newline())
-                //.append(Component.text("Balance", Guild.COLOR_SCHEME))
-                //.append(Component.text(": ${NumberUtils.formatBalance(guild.balance)}"))
+            //.append(Component.newline())
+            //.append(Component.text("Balance", Guild.COLOR_SCHEME))
+            //.append(Component.text(": ${NumberUtils.formatBalance(guild.balance)}"))
         )
         return 0
     }
@@ -243,11 +243,19 @@ class GuildCommand(private val plugin: Aurora) {
             return 0
         }
         if (target.aurora.guild != null && target.aurora.disguise == null) {
-            player.sendMessage(Component.text("That player is already in a guild.", NamedTextColor.RED))
+            player.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is already in a guild.", NamedTextColor.RED))
+            )
             return 0
         }
         if (!guildManager.invitePlayer(guild, target, player)) {
-            player.sendMessage(Component.text("That player was already invited to this guild.", NamedTextColor.RED))
+            player.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" was already invited to this guild.", NamedTextColor.RED))
+            )
             return 0
         }
         for (onlinePlayer in Aurora.instance.server.allPlayers) {
@@ -387,7 +395,11 @@ class GuildCommand(private val plugin: Aurora) {
             return 0
         }
         if (playerGuild._id != target.guild?._id) {
-            player.sendMessage(Component.text("That player is not in your guild.", NamedTextColor.RED))
+            player.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is not in your guild.", NamedTextColor.RED))
+            )
             return 0
         }
         target.guild = null
@@ -435,7 +447,11 @@ class GuildCommand(private val plugin: Aurora) {
             return 0
         }
         if (playerGuild._id != target.guild?._id) {
-            player.sendMessage(Component.text("That player is not in your guild.", NamedTextColor.RED))
+            player.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is not in your guild.", NamedTextColor.RED))
+            )
             return 0
         }
         val guild = guildManager.getGuild(playerGuild._id)
@@ -498,7 +514,11 @@ class GuildCommand(private val plugin: Aurora) {
             return 0
         }
         if (playerGuild._id != target.guild?._id) {
-            player.sendMessage(Component.text("That player is not in your guild.", NamedTextColor.RED))
+            player.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is not in your guild.", NamedTextColor.RED))
+            )
             return 0
         }
         val guild = guildManager.getGuild(playerGuild._id)
