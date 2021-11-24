@@ -160,13 +160,21 @@ class PartyCommand(private val plugin: Aurora) {
             context.source.sendMessage(punishment.getMessage(false))
             return 0
         }
-        val party: Party = partyManager.getPlayerParty(player) ?: partyManager.createParty(player)
+        val party = partyManager.getPlayerParty(player) ?: partyManager.createParty(player)
         if (party.members.contains(target)) {
-            context.source.sendMessage(Component.text(" is already in this party.", NamedTextColor.RED))
+            context.source.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is already in this party.", NamedTextColor.RED))
+            )
             return 0
         }
         if (party.isInvited(target)) {
-            context.source.sendMessage(Component.text(" was already invited to this party.", NamedTextColor.RED))
+            context.source.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" was already invited to this party.", NamedTextColor.RED))
+            )
             return 0
         }
         party.invitePlayer(target, player)
@@ -185,7 +193,11 @@ class PartyCommand(private val plugin: Aurora) {
             return 0
         }
         if (partyManager.getPlayerParty(target) != null) {
-            context.source.sendMessage(Component.text(" is already in a party.", NamedTextColor.RED))
+            context.source.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is already in a party.", NamedTextColor.RED))
+            )
             return 0
         }
         val punishment =
@@ -245,7 +257,11 @@ class PartyCommand(private val plugin: Aurora) {
             return 0
         }
         if (!party.members.contains(target)) {
-            context.source.sendMessage(Component.text(" is not in this party.", NamedTextColor.RED))
+            context.source.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is not in this party.", NamedTextColor.RED))
+            )
             return 0
         }
         party.leader = target
@@ -277,7 +293,11 @@ class PartyCommand(private val plugin: Aurora) {
             return 0
         }
         if (!party.members.contains(target)) {
-            context.source.sendMessage(Component.text(" is not in this party.", NamedTextColor.RED))
+            context.source.sendMessage(
+                Component.text()
+                    .append(target.displayNameFor(player))
+                    .append(Component.text(" is not in this party.", NamedTextColor.RED))
+            )
             return 0
         }
         party.removeMember(target, PartyRemoveReason.KICKED)
