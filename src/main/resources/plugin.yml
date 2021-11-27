@@ -14,3 +14,10 @@ commands:
     permission: aurora.opme
   acb:
     permission: aurora.acb
+  gm:
+    permission: aurora.gamemode
+    aliases:
+      - gms
+      - gmc
+      - gma
+      - gmsp

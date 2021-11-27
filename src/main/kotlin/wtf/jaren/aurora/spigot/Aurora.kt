@@ -4,6 +4,7 @@ import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
 import org.bukkit.plugin.java.JavaPlugin
 import wtf.jaren.aurora.spigot.commands.AntiCheatBanCommand
+import wtf.jaren.aurora.spigot.commands.GameModeCommand
 import wtf.jaren.aurora.spigot.commands.OpMeCommand
 import wtf.jaren.aurora.spigot.listeners.*
 import wtf.jaren.aurora.spigot.managers.GuildManager
@@ -29,6 +30,7 @@ class Aurora : JavaPlugin() {
         }
         getCommand("opme")!!.setExecutor(OpMeCommand())
         getCommand("acb")!!.setExecutor(AntiCheatBanCommand())
+        getCommand("gm")!!.setExecutor(GameModeCommand())
         server.pluginManager.registerEvents(PlayerListener(this), this)
         val warpListener = WarpListener()
         server.pluginManager.registerEvents(warpListener, this)
