@@ -49,7 +49,7 @@ class GameModeCommand : CommandExecutor {
             Component.text()
                 .append(Component.text("Set game mode ", NamedTextColor.GREEN))
                 .append(Component.text(gameMode.name.lowercase(), NamedTextColor.RED))
-                .append(Component.text(" for "))
+                .append(Component.text(" for ", NamedTextColor.GREEN))
                 .append(player.displayName())
         )
         return true
