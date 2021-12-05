@@ -59,8 +59,8 @@ publishing {
     }
     publications {
         create<MavenPublication>("maven") {
-            groupId = "wtf.jaren.aurora"
-            artifactId = "aurora"
+            groupId = "wtf.jaren.aero"
+            artifactId = "aero"
             version = "1.0-SNAPSHOT"
 
             from(components["kotlin"])
@@ -74,5 +74,5 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 tasks.withType<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar> {
-    archiveFileName.set("Aurora.jar")
+    archiveFileName.set("Aero.jar")
 }

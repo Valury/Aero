@@ -1,8 +1,8 @@
-name: Aurora
+name: Aero
 version: 1.0
 api-version: 1.17
 author: Jaren
-main: wtf.jaren.aurora.spigot.Aurora
+main: wtf.jaren.aero.spigot.Aero
 depend:
   - LuckPerms
 softdepend:
@@ -11,11 +11,11 @@ softdepend:
 
 commands:
   opme:
-    permission: aurora.opme
+    permission: aero.opme
   acb:
-    permission: aurora.acb
+    permission: aero.acb
   gm:
-    permission: aurora.gamemode
+    permission: aero.gamemode
     aliases:
       - gms
       - gmc
