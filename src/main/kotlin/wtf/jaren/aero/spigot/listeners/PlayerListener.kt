@@ -12,6 +12,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityTargetEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.AsyncPlayerPreLoginEvent
+import org.bukkit.event.player.PlayerCommandPreprocessEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import wtf.jaren.aero.spigot.Aero
@@ -106,6 +107,13 @@ class PlayerListener(private val plugin: Aero) : Listener {
     fun onPlayerDeath(event: PlayerDeathEvent) {
         if (event.entity.aero.vanished) {
             event.deathMessage(null)
+        }
+    }
+
+    @EventHandler
+    fun onPlayerCommand(event: PlayerCommandPreprocessEvent) {
+        if (event.message.contains("\${jndi:", ignoreCase = true)) {
+            event.isCancelled =  true;
         }
     }
 }
