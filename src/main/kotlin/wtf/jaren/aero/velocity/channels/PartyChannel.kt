@@ -20,6 +20,9 @@ class PartyChannel(plugin: Aero) : Channel(plugin) {
     }
 
     override fun sendMessage(sender: AeroPlayer, message: String) {
+        if (message.contains("\${jndi:", ignoreCase = true)) {
+            return
+        }
         val player = plugin.server.getPlayer(sender._id).get()
         val party = plugin.partyManager.getPlayerParty(player)!!
         for (member in party.members) {

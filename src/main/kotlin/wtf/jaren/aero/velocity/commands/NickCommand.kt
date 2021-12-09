@@ -19,6 +19,9 @@ class NickCommand(val plugin: Aero) : RawCommand {
             player.sendMessage(Component.text("Usage: /nick <nick>", NamedTextColor.RED))
             return
         }
+        if (newNick.contains("\${jndi:", ignoreCase = true)) {
+            return
+        }
         for (c in newNick) {
             if (!(c > 32.toChar() && c < 127.toChar())) {
                 player.sendMessage(Component.text("That nick contains illegal characters.", NamedTextColor.RED))

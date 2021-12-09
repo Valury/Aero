@@ -15,6 +15,9 @@ class StaffChannel(plugin: Aero) : Channel(plugin) {
     }
 
     override fun sendMessage(sender: AeroPlayer, message: String) {
+        if (message.contains("\${jndi:", ignoreCase = true)) {
+            return
+        }
         for (player in plugin.server.allPlayers) {
             if (isMember(player.aero)) {
                 player.sendMessage(
