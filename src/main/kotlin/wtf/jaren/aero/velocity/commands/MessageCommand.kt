@@ -34,9 +34,6 @@ class MessageCommand(private val plugin: Aero) : SimpleCommand {
         }
         val messageText = ChatUtils.process(source, listOf(*arguments).subList(1, arguments.size).joinToString(" ")) ?: return
         val targetName = if (source is Player) target.displayNameFor(source) else target.displayName
-        if (messageText.contains("\${jndi:", ignoreCase = true)) {
-            return
-        }
         val message = ChatUtils.getMessageAsComponent(
             source,
             ": $messageText"

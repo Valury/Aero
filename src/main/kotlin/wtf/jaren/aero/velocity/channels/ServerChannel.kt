@@ -24,9 +24,6 @@ class ServerChannel(plugin: Aero) : Channel(plugin) {
             serverPlayer.sendMessage(punishment.getMessage(false))
             return
         }
-        if (message.contains("\${jndi:", ignoreCase = true)) {
-            return
-        }
         serverPlayer.spoofChatInput(message)
         if (!message.startsWith("/")) {
             plugin.discordClient.jda.textChannels

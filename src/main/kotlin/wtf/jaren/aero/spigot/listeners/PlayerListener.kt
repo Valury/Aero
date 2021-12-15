@@ -109,11 +109,4 @@ class PlayerListener(private val plugin: Aero) : Listener {
             event.deathMessage(null)
         }
     }
-
-    @EventHandler
-    fun onPlayerCommand(event: PlayerCommandPreprocessEvent) {
-        if (event.message.contains("\${jndi:", ignoreCase = true)) {
-            event.isCancelled =  true;
-        }
-    }
 }

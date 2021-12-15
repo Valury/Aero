@@ -26,9 +26,6 @@ class GuildChannel(plugin: Aero) : Channel(plugin) {
             plugin.server.getPlayer(sender._id).orElse(null)?.sendMessage(punishment.getMessage(false))
             return
         }
-        if (message.contains("\${jndi:", ignoreCase = true)) {
-            return
-        }
         val guild = plugin.guildManager.getGuild(sender.guild!!._id)
         for (player in plugin.server.allPlayers) {
             if (guild._id == player.aero.guild?._id) {
