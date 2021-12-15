@@ -17,7 +17,7 @@ import wtf.jaren.aero.velocity.utils.displayNameFor
 import wtf.jaren.aero.velocity.utils.luckperms
 
 class DiscordClient(val plugin: Aero) : ListenerAdapter() {
-    val jda = JDABuilder.createDefault("ODg4MDY2Mzc4NzEwNTI4MDUy.YUNSRA.hmTqvzspotJ4SvAwao4aYRd4iKI")
+    val jda = JDABuilder.createDefault(System.getenv("DISCORD_TOKEN"))
         .addEventListeners(this)
         .build()
 
