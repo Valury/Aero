@@ -2,11 +2,12 @@ package wtf.jaren.aero.spigot.external
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import me.clip.placeholderapi.expansion.Relational
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.entity.Player
 import wtf.jaren.aero.spigot.Aero
 import wtf.jaren.aero.spigot.utils.*
 
-class PAPIAeroExpansion : PlaceholderExpansion(), Relational {
+class PAPIAeroExpansion(val plugin: Aero) : PlaceholderExpansion(), Relational {
     override fun getIdentifier(): String {
         return "aero"
     }
@@ -36,10 +37,26 @@ class PAPIAeroExpansion : PlaceholderExpansion(), Relational {
     }
 
     override fun onPlaceholderRequest(one: Player, two: Player, identifier: String): String? {
-        if (identifier == "prefix") {
+        if (identifier == "prefix_tab" || identifier == "prefix_tag") {
             var prefix = two.prefixFor(one).replace('§', '&')
-            if ((prefix.length <= 10 || one.actualProtocolVersion >= 393) && two.aero.vanished) {
+            if (one.actualProtocolVersion >= 393) {
+                when (two.group) {
+                    "content" -> {
+                        prefix = plugin.prefixAnimationManager.getCurrentContentPrefix()
+                    }
+                    "droplet" -> {
+                        prefix = plugin.prefixAnimationManager.getCurrentDropletPrefix()
+                    }
+                    "glorious" -> {
+                        prefix = plugin.prefixAnimationManager.getCurrentGloriousPrefix()
+                    }
+                }
+            }
+            if ((identifier == "prefix_tab" || prefix.length <= 10 || one.actualProtocolVersion >= 393) && two.aero.vanished) {
                 prefix = "&7[V] $prefix";
+            }
+            if (one.actualProtocolVersion < 735 && prefix.contains("&#")) {
+                prefix = ChatUtils.downsampleHexColorsAmpersand(prefix)
             }
             return prefix;
         }

@@ -61,7 +61,15 @@ object ChatUtils {
             return prefix
         }
         val color = "§${matcher.group(1)}"
-        return "${color}${prefix.substring(2).replace(color, "")}"
+        val newPrefix = "${color}${prefix.substring(2).replace(color, "")}"
+        // Downsample hex colors
+        return downsampleHexColors(newPrefix)
+    }
+
+    fun downsampleHexColors(string: String): String {
+        return LegacyComponentSerializer.legacySection().serialize(
+            LegacyComponentSerializer.builder().hexColors().build().deserialize(string)
+        ).replace("§1", "§9")
     }
 
     fun escapeDiscordMarkdown(text: String): String {

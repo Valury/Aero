@@ -11,6 +11,7 @@ import wtf.jaren.aero.spigot.managers.GuildManager
 import wtf.jaren.aero.spigot.managers.PlayerManager
 import wtf.jaren.aero.spigot.external.PAPIAeroExpansion
 import wtf.jaren.aero.spigot.external.AeroEconomy
+import wtf.jaren.aero.spigot.managers.PrefixAnimationManager
 
 class Aero : JavaPlugin() {
     val database: MongoDatabase =
@@ -20,6 +21,8 @@ class Aero : JavaPlugin() {
     val playerManager = PlayerManager(this)
 
     val guildManager = GuildManager(this)
+
+    val prefixAnimationManager = PrefixAnimationManager()
 
     val serverName: String = System.getenv("NAME") ?: "Unknown"
 
@@ -37,9 +40,10 @@ class Aero : JavaPlugin() {
         server.messenger.registerIncomingPluginChannel(this, "aero:warp", warpListener)
         server.messenger.registerIncomingPluginChannel(this, "aero:sync", SyncListener(this))
         server.messenger.registerOutgoingPluginChannel(this, "aero:acb")
+        server.scheduler.runTaskTimerAsynchronously(this, Runnable { prefixAnimationManager.tick() }, 0L, 1L)
         LuckPermsListener(this)
         if (server.pluginManager.isPluginEnabled("PlaceholderAPI")) {
-            PAPIAeroExpansion().register()
+            PAPIAeroExpansion(this).register()
             logger.info("Hooked into PlaceholderAPI")
         }
         if (server.pluginManager.isPluginEnabled("Vault")) {
