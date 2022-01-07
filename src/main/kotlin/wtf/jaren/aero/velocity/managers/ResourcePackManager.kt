@@ -1,5 +1,6 @@
 package wtf.jaren.aero.velocity.managers
 
+import com.velocitypowered.api.network.ProtocolVersion
 import com.velocitypowered.api.proxy.Player
 import wtf.jaren.aero.velocity.Aero
 import wtf.jaren.aero.velocity.utils.toHex
@@ -22,6 +23,7 @@ class ResourcePackManager(private val plugin: Aero) {
 
     fun sendResourcePackTo(player: Player) {
         if (hash == null) return
+        if (player.protocolVersion < ProtocolVersion.MINECRAFT_1_13) return
         player.sendResourcePackOffer(
             plugin.server.createResourcePackBuilder("https://valury.network/pack.zip?${hash!!.toHex()}")
                 .setShouldForce(true)

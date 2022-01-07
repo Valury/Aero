@@ -20,6 +20,7 @@ repositories {
     maven("https://jitpack.io/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://m2.dv8tion.net/releases")
+    maven("https://repo.viaversion.com/")
 }
 
 dependencies {

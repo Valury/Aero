@@ -24,4 +24,19 @@ object ChatUtils {
         }
         return builder.build().deserialize(newText)
     }
+    fun convertUnicodeToPlainText(text: String): String {
+        return text
+            .replace("", "[PLAYER]")
+            .replace("", "[RECRUIT]")
+            .replace("", "[KNIGHT]")
+            .replace("", "[GLORIOUS]")
+            .replace("", "[DROPLET]")
+            .replace("", "[BUILDER]")
+            .replace("", "[HELPER]")
+            .replace("", "[MOD]")
+            .replace("", "[CONTENT]")
+            .replace("", "[ADMIN]")
+            .replace("", "[DEVELOPER]")
+            .replace("", "[OWNER]")
+    }
 }

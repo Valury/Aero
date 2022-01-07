@@ -4,6 +4,7 @@ import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.luckperms.api.LuckPermsProvider
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import wtf.jaren.aero.spigot.Aero
 
@@ -42,6 +43,10 @@ val Player.suffix: String
         }
     }
 
+fun Player.prefixFor(player: Player): String {
+    return if (player.protocolVersion >= 393) this.prefix else ChatUtils.convertUnicodeToPlainText(this.prefix)
+}
+
 fun Player.displayNameFor(player: Player): TextComponent {
     val name = if (player.aero.preferences.showNicks) {
         this.aero.effectiveNick ?: this.name
@@ -49,7 +54,7 @@ fun Player.displayNameFor(player: Player): TextComponent {
         this.name
     }
     return LegacyComponentSerializer.legacySection().deserialize(
-        this.prefix + name + this.suffix
+        this.prefixFor(player) + name + this.suffix
     )
 }
 
