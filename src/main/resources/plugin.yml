@@ -8,6 +8,7 @@ depend:
 softdepend:
   - PlaceholderAPI
   - Vault
+  - ViaVersion
 
 commands:
   opme:

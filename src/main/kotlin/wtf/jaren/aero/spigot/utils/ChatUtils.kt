@@ -5,6 +5,7 @@ import net.kyori.adventure.text.TextComponent
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import java.util.regex.Pattern
 
 object ChatUtils {
     fun getMessageAsComponent(source: CommandSender, viewer: Audience, text: String): TextComponent {
@@ -38,5 +39,19 @@ object ChatUtils {
             .replace("", "[ADMIN]")
             .replace("", "[DEVELOPER]")
             .replace("", "[OWNER]")
+    }
+
+    private val COLOR_PATTERN: Pattern = Pattern.compile("§([0-9a-f]|#[0-9a-f]{6})")
+    fun convertUnicodePrefixToColoredText(text: String): String {
+        val prefix = convertUnicodeToPlainText(text)
+        if (!prefix.startsWith("§f")) {
+            return prefix
+        }
+        val matcher = COLOR_PATTERN.matcher(prefix.substring(2))
+        if (!matcher.find()) {
+            return prefix
+        }
+        val color = "§${matcher.group(1)}"
+        return "${color}${prefix.substring(2).replace(color, "")}"
     }
 }

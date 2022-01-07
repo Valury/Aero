@@ -48,6 +48,8 @@ dependencies {
     }
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+
+    compileOnly("com.viaversion:viaversion-api:4.1.1")
 }
 
 publishing {

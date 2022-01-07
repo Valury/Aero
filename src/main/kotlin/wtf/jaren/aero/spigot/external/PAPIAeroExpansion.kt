@@ -4,10 +4,7 @@ import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import me.clip.placeholderapi.expansion.Relational
 import org.bukkit.entity.Player
 import wtf.jaren.aero.spigot.Aero
-import wtf.jaren.aero.spigot.utils.ChatUtils
-import wtf.jaren.aero.spigot.utils.aero
-import wtf.jaren.aero.spigot.utils.prefix
-import wtf.jaren.aero.spigot.utils.suffix
+import wtf.jaren.aero.spigot.utils.*
 
 class PAPIAeroExpansion : PlaceholderExpansion(), Relational {
     override fun getIdentifier(): String {
@@ -40,13 +37,11 @@ class PAPIAeroExpansion : PlaceholderExpansion(), Relational {
 
     override fun onPlaceholderRequest(one: Player, two: Player, identifier: String): String? {
         if (identifier == "prefix") {
-            var prefix = two.prefix.replace('§', '&')
-            if (one.protocolVersion < 393) {
-                prefix = ChatUtils.convertUnicodeToPlainText(prefix);
-            }
-            if ((prefix.length <= 10 || one.protocolVersion >= 393) && two.aero.vanished) {
+            var prefix = two.prefixFor(one).replace('§', '&')
+            if ((prefix.length <= 10 || one.actualProtocolVersion >= 393) && two.aero.vanished) {
                 prefix = "&7[V] $prefix";
             }
+            return prefix;
         }
         if (identifier == "nick") {
             return if (one.aero.preferences.showNicks) {

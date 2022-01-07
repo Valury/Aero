@@ -7,6 +7,7 @@ import com.mongodb.client.model.Collation
 import com.mongodb.client.model.CollationStrength
 import com.mongodb.client.model.Filters
 import com.velocitypowered.api.command.CommandSource
+import com.velocitypowered.api.network.ProtocolVersion
 import com.velocitypowered.api.proxy.Player
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.TextComponent
@@ -56,13 +57,21 @@ val Player.fullDisplayName: TextComponent
         }
     }
 
+fun Player.prefixFor(player: Player): String {
+    return if (player.protocolVersion >= ProtocolVersion.MINECRAFT_1_13) {
+        player.prefix
+    } else {
+        ChatUtils.convertUnicodePrefixToColoredText(player.prefix)
+    }
+}
+
 fun Player.displayNameFor(player: Player): TextComponent {
     val name = if (player.aero.preferences.showNicks) {
         this.aero.effectiveNick ?: this.username
     } else {
         this.username
     }
-    return LegacyComponentSerializer.legacySection().deserialize(this.prefix + name)
+    return LegacyComponentSerializer.legacySection().deserialize(this.prefixFor(player) + name)
 }
 
 fun Player.fullDisplayNameFor(player: Player): TextComponent {
@@ -111,9 +120,12 @@ fun AeroPlayer.displayNameFor(player: Player): TextComponent {
     } else {
         this.name
     }
+    var prefix = this.luckperms.cachedData.metaData.prefix?.replace('&', '§') ?: ""
+    if (player.protocolVersion < ProtocolVersion.MINECRAFT_1_13) {
+        prefix = ChatUtils.convertUnicodePrefixToColoredText(prefix)
+    }
     return LegacyComponentSerializer.legacySection().deserialize(
-        (this.luckperms.cachedData.metaData.prefix?.replace('&', '§')
-            ?: "") + name
+        prefix + name
     )
 }
 

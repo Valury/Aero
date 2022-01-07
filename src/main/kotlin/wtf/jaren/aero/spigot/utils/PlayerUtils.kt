@@ -6,6 +6,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.luckperms.api.LuckPermsProvider
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
+import wtf.jaren.aero.shared.objects.AeroPlayer
 import wtf.jaren.aero.spigot.Aero
 
 
@@ -42,9 +43,16 @@ val Player.suffix: String
             ""
         }
     }
-
+val Player.actualProtocolVersion: Int
+    get() {
+        return if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
+            ViaVersionUtil.getPlayerVersion(this)
+        } else {
+            this.protocolVersion
+        }
+    }
 fun Player.prefixFor(player: Player): String {
-    return if (player.protocolVersion >= 393) this.prefix else ChatUtils.convertUnicodeToPlainText(this.prefix)
+    return if (player.actualProtocolVersion >= 393) this.prefix else ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
 }
 
 fun Player.displayNameFor(player: Player): TextComponent {
