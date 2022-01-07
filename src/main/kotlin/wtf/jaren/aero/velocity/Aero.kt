@@ -9,7 +9,6 @@ import com.velocitypowered.api.plugin.Dependency
 import com.velocitypowered.api.plugin.Plugin
 import com.velocitypowered.api.proxy.ProxyServer
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
-import org.bukkit.Bukkit
 import org.slf4j.Logger
 import wtf.jaren.aero.velocity.commands.*
 import wtf.jaren.aero.velocity.discord.DiscordClient
@@ -58,7 +57,6 @@ class Aero @Inject constructor(val server: ProxyServer, val logger: Logger) {
 
     @Subscribe
     fun onProxyInitialization(@Suppress("UNUSED_PARAMETER") event: ProxyInitializeEvent) {
-        Bukkit.getServer().version
         val commandManager = server.commandManager
         commandManager.register(commandManager.metaBuilder("msg").build(), MessageCommand(this))
         commandManager.register(commandManager.metaBuilder("r").build(), ReplyCommand(this))
