@@ -62,6 +62,10 @@ fun Player.prefixFor(player: Player): String {
     return if (player.actualProtocolVersion >= 393) this.prefix else ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
 }
 
+fun Player.suffixFor(player: Player): String {
+    return if (player.actualProtocolVersion >= 393) this.suffix else ChatUtils.downsampleHexColors(this.suffix)
+}
+
 fun Player.displayNameFor(player: Player): TextComponent {
     val name = if (player.aero.preferences.showNicks) {
         this.aero.effectiveNick ?: this.name
@@ -69,7 +73,7 @@ fun Player.displayNameFor(player: Player): TextComponent {
         this.name
     }
     return LegacyComponentSerializer.legacySection().deserialize(
-        this.prefixFor(player) + name + this.suffix
+        this.prefixFor(player) + name + this.suffixFor(player)
     )
 }
 
