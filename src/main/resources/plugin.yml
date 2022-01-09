@@ -9,6 +9,7 @@ softdepend:
   - PlaceholderAPI
   - Vault
   - ViaVersion
+  - ProtocolLib
 
 commands:
   opme:

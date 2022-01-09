@@ -50,11 +50,13 @@ val Player.suffix: String
     }
 val Player.actualProtocolVersion: Int
     get() {
-        return if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
-            ViaVersionUtil.getPlayerVersion(this)
-        } else {
-            -1
+        if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
+            return ViaVersionUtil.getPlayerVersion(this)
         }
+        try {
+            return Player::class.java.getMethod("getProtocolVersion").invoke(player) as Int
+        } catch (e: Exception) {}
+        return -1
     }
 fun Player.prefixFor(player: Player): String {
     return if (player.actualProtocolVersion >= 393) this.prefix else ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
