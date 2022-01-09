@@ -9,8 +9,11 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import wtf.jaren.aero.spigot.Aero
+import wtf.jaren.aero.spigot.utils.aeroDisplayName
+import wtf.jaren.aero.spigot.utils.displayNameFor
 
-class GameModeCommand : CommandExecutor {
+class GameModeCommand(val plugin: Aero) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         var playerIndex = 0
         val gameMode = when (label) {
@@ -28,7 +31,7 @@ class GameModeCommand : CommandExecutor {
             }
         }
         if (gameMode == null) {
-            sender.sendMessage(usage(label, sender is Player));
+            plugin.adventure.sender(sender).sendMessage(usage(label, sender is Player));
             return true
         }
         val player = if (args.size > playerIndex || sender !is Player) {
@@ -41,16 +44,16 @@ class GameModeCommand : CommandExecutor {
             sender
         }
         if (player == null) {
-            sender.sendMessage(usage(label, sender is Player));
+            plugin.adventure.sender(sender).sendMessage(usage(label, sender is Player));
             return true
         }
         player.gameMode = gameMode
-        sender.sendMessage(
+        plugin.adventure.sender(sender).sendMessage(
             Component.text()
                 .append(Component.text("Set game mode ", NamedTextColor.GREEN))
                 .append(Component.text(gameMode.name.lowercase(), NamedTextColor.RED))
                 .append(Component.text(" for ", NamedTextColor.GREEN))
-                .append(player.displayName())
+                .append(if (sender is Player) player.displayNameFor(sender) else player.aeroDisplayName)
         )
         return true
     }

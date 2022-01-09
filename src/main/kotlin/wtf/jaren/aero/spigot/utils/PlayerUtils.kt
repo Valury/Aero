@@ -31,7 +31,12 @@ val Player.group: String
             this.aero.disguise!!.rank
         }
     }
-
+val Player.aeroDisplayName: TextComponent
+    get() {
+        return LegacyComponentSerializer.legacySection().deserialize(
+            this.prefix + name + this.suffix
+        )
+    }
 val Player.suffix: String
     get() {
         return if (this.aero.disguise == null && this.aero.guild != null) {
@@ -48,7 +53,7 @@ val Player.actualProtocolVersion: Int
         return if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
             ViaVersionUtil.getPlayerVersion(this)
         } else {
-            this.protocolVersion
+            -1
         }
     }
 fun Player.prefixFor(player: Player): String {
@@ -67,9 +72,5 @@ fun Player.displayNameFor(player: Player): TextComponent {
 }
 
 fun Player.updateDisplayName() {
-    this.displayName(
-        LegacyComponentSerializer.legacySection().deserialize(
-            this.prefix + (this.aero.effectiveNick ?: this.name) + this.suffix
-        )
-    )
+    this.setDisplayName(this.prefix + (this.aero.effectiveNick ?: this.name) + this.suffix)
 }

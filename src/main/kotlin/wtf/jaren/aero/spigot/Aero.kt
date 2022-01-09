@@ -2,6 +2,7 @@ package wtf.jaren.aero.spigot
 
 import com.mongodb.client.MongoClients
 import com.mongodb.client.MongoDatabase
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
 import org.bukkit.plugin.java.JavaPlugin
 import wtf.jaren.aero.spigot.commands.AntiCheatBanCommand
 import wtf.jaren.aero.spigot.commands.GameModeCommand
@@ -11,6 +12,8 @@ import wtf.jaren.aero.spigot.managers.GuildManager
 import wtf.jaren.aero.spigot.managers.PlayerManager
 import wtf.jaren.aero.spigot.external.PAPIAeroExpansion
 import wtf.jaren.aero.spigot.external.AeroEconomy
+import wtf.jaren.aero.spigot.listeners.chat.AdventureChatListener
+import wtf.jaren.aero.spigot.listeners.chat.BukkitChatListener
 import wtf.jaren.aero.spigot.managers.PrefixAnimationManager
 
 class Aero : JavaPlugin() {
@@ -26,15 +29,24 @@ class Aero : JavaPlugin() {
 
     val serverName: String = System.getenv("NAME") ?: "Unknown"
 
+    lateinit var adventure: BukkitAudiences
+
     override fun onEnable() {
         instance = this
+        adventure = BukkitAudiences.create(this)
         if (serverName.lowercase() == "lobby") {
             server.pluginManager.registerEvents(LobbyListener(), this)
         }
-        getCommand("opme")!!.setExecutor(OpMeCommand())
-        getCommand("acb")!!.setExecutor(AntiCheatBanCommand())
-        getCommand("gm")!!.setExecutor(GameModeCommand())
+        getCommand("opme")!!.setExecutor(OpMeCommand(this))
+        getCommand("acb")!!.setExecutor(AntiCheatBanCommand(this))
+        getCommand("gm")!!.setExecutor(GameModeCommand(this))
         server.pluginManager.registerEvents(PlayerListener(this), this)
+        try {
+            Class.forName("io.papermc.paper.event.player.AsyncChatEvent")
+            server.pluginManager.registerEvents(AdventureChatListener(), this)
+        } catch (e: ClassNotFoundException) {
+            server.pluginManager.registerEvents(BukkitChatListener(this), this)
+        }
         val warpListener = WarpListener()
         server.pluginManager.registerEvents(warpListener, this)
         server.messenger.registerIncomingPluginChannel(this, "aero:warp", warpListener)
@@ -57,6 +69,10 @@ class Aero : JavaPlugin() {
             playerManager.handlePreLogin(player.uniqueId)
             playerManager.handleJoin(player)
         }
+    }
+
+    override fun onDisable() {
+        this.adventure.close()
     }
 
     companion object {

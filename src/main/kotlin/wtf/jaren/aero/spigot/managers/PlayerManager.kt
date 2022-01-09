@@ -52,14 +52,14 @@ class PlayerManager(private val plugin: Aero) {
         }
         for (onlinePlayer in Bukkit.getOnlinePlayers()) {
             if (!player.aero.vanished || onlinePlayer.hasPermission("aero.vanish")) {
-                onlinePlayer.showPlayer(plugin, player)
+                onlinePlayer.showPlayer(player)
             } else {
-                onlinePlayer.hidePlayer(plugin, player)
+                onlinePlayer.hidePlayer(player)
             }
             if (!onlinePlayer.aero.vanished || player.hasPermission("aero.vanish")) {
-                player.showPlayer(plugin, onlinePlayer)
+                player.showPlayer(onlinePlayer)
             } else {
-                player.hidePlayer(plugin, onlinePlayer)
+                player.hidePlayer(onlinePlayer)
             }
         }
         player.updateDisplayName()

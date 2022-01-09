@@ -62,7 +62,6 @@ object ChatUtils {
         }
         val color = "§${matcher.group(1)}"
         val newPrefix = "${color}${prefix.substring(2).replace(color, "")}"
-        // Downsample hex colors
         return downsampleHexColors(newPrefix)
     }
 

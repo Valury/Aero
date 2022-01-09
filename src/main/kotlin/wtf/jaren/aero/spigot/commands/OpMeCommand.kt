@@ -6,16 +6,17 @@ import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import wtf.jaren.aero.spigot.Aero
 
-class OpMeCommand : CommandExecutor {
+class OpMeCommand(val plugin: Aero) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         val player = sender as Player
         if (!player.isOp) {
             player.isOp = true
-            player.sendMessage(Component.text("You are now op.", NamedTextColor.GREEN))
+            plugin.adventure.sender(sender).sendMessage(Component.text("You are now op.", NamedTextColor.GREEN))
         } else {
             player.isOp = false
-            player.sendMessage(Component.text("You are no longer op.", NamedTextColor.RED))
+            plugin.adventure.sender(sender).sendMessage(Component.text("You are no longer op.", NamedTextColor.RED))
         }
         return true
     }
