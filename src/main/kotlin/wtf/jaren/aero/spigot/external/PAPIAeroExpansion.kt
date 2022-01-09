@@ -60,6 +60,9 @@ class PAPIAeroExpansion(val plugin: Aero) : PlaceholderExpansion(), Relational {
             }
             return prefix;
         }
+        if (identifier == "suffix") {
+            return two.suffixFor(one).replace('§', '&')
+        }
         if (identifier == "nick") {
             return if (one.aero.preferences.showNicks) {
                 two.aero.effectiveNick ?: two.name
