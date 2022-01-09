@@ -59,11 +59,11 @@ val Player.actualProtocolVersion: Int
         return -1
     }
 fun Player.prefixFor(player: Player): String {
-    return if (player.actualProtocolVersion >= 393) this.prefix else ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
+    return if (player.actualProtocolVersion >= 393 && ServerUtil.protocolVersion >= 393) this.prefix else ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
 }
 
 fun Player.suffixFor(player: Player): String {
-    return if (player.actualProtocolVersion >= 393) this.suffix else ChatUtils.downsampleHexColors(this.suffix)
+    return if (player.actualProtocolVersion >= 393 && ServerUtil.protocolVersion >= 393) this.suffix else ChatUtils.downsampleHexColors(this.suffix)
 }
 
 fun Player.displayNameFor(player: Player): TextComponent {

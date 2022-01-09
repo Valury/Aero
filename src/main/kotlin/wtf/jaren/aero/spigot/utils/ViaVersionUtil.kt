@@ -7,4 +7,7 @@ object ViaVersionUtil {
     fun getPlayerVersion(player: Player): Int {
         return Via.getAPI().getPlayerVersion(player)
     }
+    fun getServerVersion(): Int {
+        return Via.getAPI().serverVersion.highestSupportedVersion()
+    }
 }
