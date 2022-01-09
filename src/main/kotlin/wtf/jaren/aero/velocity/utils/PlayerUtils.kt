@@ -59,9 +59,9 @@ val Player.fullDisplayName: TextComponent
 
 fun Player.prefixFor(player: Player): String {
     return if (player.protocolVersion >= ProtocolVersion.MINECRAFT_1_13) {
-        player.prefix
+        this.prefix
     } else {
-        ChatUtils.convertUnicodePrefixToColoredText(player.prefix)
+        ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
     }
 }
 
@@ -113,7 +113,6 @@ val AeroPlayer.fullDisplayName: TextComponent
             displayName
         }
     }
-
 fun AeroPlayer.displayNameFor(player: Player): TextComponent {
     val name = if (player.aero.preferences.showNicks) {
         this.nick ?: this.name
