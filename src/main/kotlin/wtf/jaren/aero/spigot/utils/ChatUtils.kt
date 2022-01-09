@@ -88,10 +88,4 @@ object ChatUtils {
         }
         return newString
     }
-
-    fun downsampleHexColorsAmpersand(string: String): String {
-        return LegacyComponentSerializer.legacyAmpersand().serialize(
-            LegacyComponentSerializer.builder().character('&').hexColors().build().deserialize(string)
-        ).replace("&1", "&9")
-    }
 }

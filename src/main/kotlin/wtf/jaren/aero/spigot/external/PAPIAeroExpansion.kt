@@ -38,7 +38,7 @@ class PAPIAeroExpansion(val plugin: Aero) : PlaceholderExpansion(), Relational {
 
     override fun onPlaceholderRequest(one: Player, two: Player, identifier: String): String? {
         if (identifier == "prefix_tab" || identifier == "prefix_tag") {
-            var prefix = two.prefixFor(one).replace('§', '&')
+            var prefix = two.prefixFor(one)
             if (one.actualProtocolVersion >= 393) {
                 when (two.group) {
                     "content" -> {
@@ -53,12 +53,12 @@ class PAPIAeroExpansion(val plugin: Aero) : PlaceholderExpansion(), Relational {
                 }
             }
             if ((identifier == "prefix_tab" || prefix.length <= 10 || one.actualProtocolVersion >= 393) && two.aero.vanished) {
-                prefix = "&7[V] $prefix";
+                prefix = "§7[V] $prefix";
             }
-            if ((one.actualProtocolVersion < 735 || ServerUtil.protocolVersion < 735) && prefix.contains("&#")) {
-                prefix = ChatUtils.downsampleHexColorsAmpersand(prefix)
+            if ((one.actualProtocolVersion < 735 || ServerUtil.protocolVersion < 735) && prefix.contains("§#")) {
+                prefix = ChatUtils.downsampleHexColors(prefix)
             }
-            return prefix;
+            return prefix.replace('§', '&');
         }
         if (identifier == "suffix") {
             return two.suffixFor(one).replace('§', '&')

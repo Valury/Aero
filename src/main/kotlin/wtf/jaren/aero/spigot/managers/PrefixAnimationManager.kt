@@ -19,15 +19,15 @@ class PrefixAnimationManager {
     }
 
     fun getCurrentContentPrefix(): String {
-        return "&f${content[tick % content.size]} "
+        return "§f${content[tick % content.size]} "
     }
 
     fun getCurrentDropletPrefix(): String {
-        return "&f${droplet[tick % droplet.size]} &#0c7beb"
+        return "§f${droplet[tick % droplet.size]} §9"
     }
 
     fun getCurrentGloriousPrefix(): String {
-        return "&f${glorious[(tick / 2) % glorious.size]} &6"
+        return "§f${glorious[(tick / 2) % glorious.size]} §6"
     }
 
 }
