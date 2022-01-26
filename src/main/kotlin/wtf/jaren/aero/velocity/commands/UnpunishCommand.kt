@@ -7,6 +7,7 @@ import net.kyori.adventure.text.format.NamedTextColor
 import wtf.jaren.aero.velocity.Aero
 import wtf.jaren.aero.velocity.enums.PunishmentType
 import wtf.jaren.aero.velocity.utils.PlayerUtils.fetchOfflinePlayer
+import wtf.jaren.aero.velocity.utils.aero
 
 class UnpunishCommand(plugin: Aero) : SimpleCommand {
     private val punishmentManager = plugin.punishmentManager
@@ -29,7 +30,7 @@ class UnpunishCommand(plugin: Aero) : SimpleCommand {
                 .sendMessage(Component.text("That player is not " + type.pastTense + ".", NamedTextColor.RED))
             return
         }
-        punishmentManager.revokePunishment(punishment, if (source is Player) source.username else "Console")
+        punishmentManager.revokePunishment(punishment, if (source is Player) source.aero.name else "Console")
     }
 
     private fun getHelpMessage(invocation: SimpleCommand.Invocation): Component {
