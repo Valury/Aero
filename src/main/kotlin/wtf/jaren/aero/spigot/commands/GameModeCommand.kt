@@ -47,6 +47,10 @@ class GameModeCommand(val plugin: Aero) : CommandExecutor {
             plugin.adventure.sender(sender).sendMessage(usage(label, sender is Player));
             return true
         }
+        if (!sender.hasPermission("aero.gamemode.${if (sender == player) "self" else "others"}.${gameMode.name.lowercase()}")) {
+            plugin.adventure.sender(sender).sendMessage(Component.text("You do not have permission to do this.", NamedTextColor.RED))
+            return true
+        }
         player.gameMode = gameMode
         plugin.adventure.sender(sender).sendMessage(
             Component.text()

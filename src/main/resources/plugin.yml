@@ -16,9 +16,10 @@ commands:
     permission: aero.opme
   acb:
     permission: aero.acb
-  gm:
+  gamemode:
     permission: aero.gamemode
     aliases:
+      - gm
       - gms
       - gmc
       - gma

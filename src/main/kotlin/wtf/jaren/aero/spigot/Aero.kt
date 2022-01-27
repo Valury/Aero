@@ -39,7 +39,7 @@ class Aero : JavaPlugin() {
         }
         getCommand("opme")!!.setExecutor(OpMeCommand(this))
         getCommand("acb")!!.setExecutor(AntiCheatBanCommand(this))
-        getCommand("gm")!!.setExecutor(GameModeCommand(this))
+        getCommand("gamemode")!!.setExecutor(GameModeCommand(this))
         server.pluginManager.registerEvents(PlayerListener(this), this)
         try {
             Class.forName("io.papermc.paper.event.player.AsyncChatEvent")
