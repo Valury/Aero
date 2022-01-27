@@ -77,7 +77,7 @@ class GameModeCommand(val plugin: Aero) : CommandExecutor {
     private fun usage(label: String, isPlayer: Boolean): TextComponent {
         val player = if (isPlayer) "[player]" else "<player>"
         return if (label == "gamemode" || label == "gm") {
-            Component.text("Usage: /gm <gamemode> $player", NamedTextColor.RED)
+            Component.text("Usage: /$label <gamemode> $player", NamedTextColor.RED)
         } else {
             Component.text("Usage: /$label $player", NamedTextColor.RED)
         }
