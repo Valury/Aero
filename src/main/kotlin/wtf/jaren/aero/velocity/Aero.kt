@@ -32,8 +32,8 @@ class Aero @Inject constructor(val server: ProxyServer, val logger: Logger) {
 
     @JvmField
     val database: MongoDatabase =
-        MongoClients.create(System.getenv("MONGO_CONNECTION_STRING"))
-            .getDatabase(System.getenv("MONGO_DATABASE"))
+        MongoClients.create(System.getenv("MONGO_CONNECTION_STRING") ?: "mongodb://localhost/?uuidRepresentation=STANDARD")
+            .getDatabase(System.getenv("MONGO_DATABASE") ?: "aero")
 
     val playerManager = PlayerManager(this)
 
@@ -51,7 +51,7 @@ class Aero @Inject constructor(val server: ProxyServer, val logger: Logger) {
 
     val resourcePackManager = ResourcePackManager(this)
 
-    val discordClient = DiscordClient(this)
+    val discordClient = if (System.getenv("DISCORD_TOKEN") != null) DiscordClient(this, System.getenv("DISCORD_TOKEN")) else null
 
     var planAPI: PlanAPI? = null
 

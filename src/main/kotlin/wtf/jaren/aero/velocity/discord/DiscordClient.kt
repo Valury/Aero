@@ -1,6 +1,7 @@
 package wtf.jaren.aero.velocity.discord
 
 import com.mongodb.client.model.Filters
+import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
@@ -16,8 +17,8 @@ import wtf.jaren.aero.velocity.utils.StringUtils
 import wtf.jaren.aero.velocity.utils.displayNameFor
 import wtf.jaren.aero.velocity.utils.luckperms
 
-class DiscordClient(val plugin: Aero) : ListenerAdapter() {
-    val jda = JDABuilder.createDefault(System.getenv("DISCORD_TOKEN"))
+class DiscordClient(val plugin: Aero, token: String) : ListenerAdapter() {
+    val jda: JDA = JDABuilder.createDefault(token)
         .addEventListeners(this)
         .build()
 

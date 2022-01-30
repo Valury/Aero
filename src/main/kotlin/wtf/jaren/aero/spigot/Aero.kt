@@ -18,8 +18,8 @@ import wtf.jaren.aero.spigot.managers.PrefixAnimationManager
 
 class Aero : JavaPlugin() {
     val database: MongoDatabase =
-        MongoClients.create(System.getenv("MONGO_CONNECTION_STRING"))
-            .getDatabase(System.getenv("MONGO_DATABASE"))
+        MongoClients.create(System.getenv("MONGO_CONNECTION_STRING") ?: "mongodb://localhost/?uuidRepresentation=STANDARD")
+            .getDatabase(System.getenv("MONGO_DATABASE") ?: "aero")
 
     val playerManager = PlayerManager(this)
 
