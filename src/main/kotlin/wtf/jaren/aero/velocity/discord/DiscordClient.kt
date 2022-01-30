@@ -3,8 +3,7 @@ package wtf.jaren.aero.velocity.discord
 import com.mongodb.client.model.Filters
 import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.events.interaction.SlashCommandEvent
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent
 import net.dv8tion.jda.api.hooks.ListenerAdapter
 import net.kyori.adventure.identity.Identity
 import net.kyori.adventure.text.Component
@@ -22,8 +21,8 @@ class DiscordClient(val plugin: Aero, token: String) : ListenerAdapter() {
         .addEventListeners(this)
         .build()
 
-    override fun onGuildMessageReceived(event: GuildMessageReceivedEvent) {
-        if (event.channel.parent?.id == "888269755813875733" && !event.author.isBot) {
+    override fun onMessageReceived(event: MessageReceivedEvent) {
+        if (event.isFromGuild && event.textChannel.parentCategoryId == "888269755813875733" && !event.author.isBot) {
             var message = event.message.contentDisplay
                 .replace('‘', '\'')
                 .replace('’', '\'')
@@ -85,10 +84,5 @@ class DiscordClient(val plugin: Aero, token: String) : ListenerAdapter() {
         if (event.message.contentRaw == "aero!info") {
             event.channel.sendMessage("[${if (plugin.isProd) "PROD" else "DEV"}] Running Aero on ${plugin.server.version.name} by ${plugin.server.version.vendor} (${plugin.server.version.version})").queue()
         }
-    }
-
-    override fun onSlashCommand(event: SlashCommandEvent) {
-        event.reply(event.name).queue()
-        Aero.instance.logger.info(event.name)
     }
 }

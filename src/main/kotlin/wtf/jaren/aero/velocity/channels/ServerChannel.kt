@@ -27,7 +27,7 @@ class ServerChannel(plugin: Aero) : Channel(plugin) {
         serverPlayer.spoofChatInput(message)
         if (!message.startsWith("/") && plugin.discordClient != null) {
             plugin.discordClient.jda.textChannels
-                .find { it.parent?.id == "888269755813875733" && serverPlayer.currentServer.get().serverInfo.name == it.name }
+                .find { it.parentCategoryId == "888269755813875733" && serverPlayer.currentServer.get().serverInfo.name == it.name }
                 ?.sendMessage(
                     ChatUtils.convertUnicodeToPlainText(ChatUtils.escapeDiscordMarkdown(
                         "${

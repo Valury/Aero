@@ -1,8 +1,8 @@
 plugins {
     id("maven-publish")
-    id("com.github.johnrengelman.shadow") version "7.1.0"
-    kotlin("jvm") version "1.5.31"
-    kotlin("kapt") version "1.6.0-RC2"
+    id("com.github.johnrengelman.shadow") version "7.1.2"
+    kotlin("jvm") version "1.6.10"
+    kotlin("kapt") version "1.6.10"
 }
 
 repositories {
@@ -24,18 +24,18 @@ repositories {
 }
 
 dependencies {
-    compileOnly("com.velocitypowered:velocity-api:3.0.0")
-    kapt("com.velocitypowered:velocity-api:3.0.0")
+    implementation(kotlin("stdlib-jdk8"))
+
+    compileOnly("com.velocitypowered:velocity-api:3.1.1")
+    kapt("com.velocitypowered:velocity-api:3.1.1")
 
     compileOnly("wtf.jaren.valury:valury-api:1.17.1-R0.1-SNAPSHOT")
 
     compileOnly("net.luckperms:api:5.3")
 
-    implementation("org.mongodb:mongodb-driver-sync:4.4.0")
+    implementation("org.mongodb:mongodb-driver-sync:4.4.1")
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.2.Final")
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     compileOnly("com.github.plan-player-analytics:Plan:5.4.1366")
 
@@ -43,11 +43,11 @@ dependencies {
 
     compileOnly("me.clip:placeholderapi:2.10.10")
 
-    implementation("net.dv8tion:JDA:4.3.0_277") {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.5") {
         exclude(module = "opus-java")
     }
 
-    compileOnly("com.github.MilkBowl:VaultAPI:1.7")
+    compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
     compileOnly("com.viaversion:viaversion-api:4.1.1")
 
