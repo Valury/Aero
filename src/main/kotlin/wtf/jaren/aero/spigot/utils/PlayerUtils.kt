@@ -53,10 +53,11 @@ val Player.actualProtocolVersion: Int
         if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
             return ViaVersionUtil.getPlayerVersion(this)
         }
-        try {
-            return Player::class.java.getMethod("getProtocolVersion").invoke(player) as Int
-        } catch (e: Exception) {}
-        return -1
+        return try {
+            Player::class.java.getMethod("getProtocolVersion").invoke(player) as Int
+        } catch (_: Exception) {
+            -1
+        }
     }
 fun Player.prefixFor(player: Player): String {
     return if (player.actualProtocolVersion < 393) {
