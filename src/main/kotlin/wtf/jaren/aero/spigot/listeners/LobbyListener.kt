@@ -23,6 +23,7 @@ class LobbyListener : Listener {
         event.player.teleport(Location(Bukkit.getWorld("world"), 90.5, 98.0, -418.5, 180F, 0F))
     }
 
+    @EventHandler
     fun onFoodLevelChange(event: FoodLevelChangeEvent) {
         event.isCancelled = true
     }
