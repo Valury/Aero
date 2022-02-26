@@ -33,7 +33,7 @@ dependencies {
 
     compileOnly("net.luckperms:api:5.3")
 
-    implementation("org.mongodb:mongodb-driver-sync:4.4.1")
+    implementation("org.mongodb:mongodb-driver-sync:4.5.0")
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.2.Final")
 
