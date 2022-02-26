@@ -233,7 +233,7 @@ class GuildCommand(private val plugin: Aero) {
             return 0
         }
         val target = plugin.server.getPlayer(context.getArgument("player", String::class.java)).orElse(null)
-        if (target == null || !context.source.canSee(target)) {
+        if (target == null || !player.canSee(target)) {
             context.source.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return 0
         }

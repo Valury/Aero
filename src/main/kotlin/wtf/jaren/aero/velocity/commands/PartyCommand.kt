@@ -146,7 +146,7 @@ class PartyCommand(private val plugin: Aero) {
     private fun invite(context: CommandContext<CommandSource>): Int {
         val player = context.source as Player
         val target = plugin.server.getPlayer(context.getArgument("player", String::class.java)).orElse(null)
-        if (target == null || player.canSee(target)) {
+        if (target == null || !player.canSee(target)) {
             context.source.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return 0
         }
@@ -184,7 +184,7 @@ class PartyCommand(private val plugin: Aero) {
     private fun add(context: CommandContext<CommandSource>): Int {
         val player = context.source as Player
         val target = plugin.server.getPlayer(context.getArgument("player", String::class.java)).orElse(null)
-        if (target == null) {
+        if (target == null || !player.canSee(target)) {
             context.source.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return 0
         }
@@ -214,7 +214,7 @@ class PartyCommand(private val plugin: Aero) {
     private fun join(context: CommandContext<CommandSource>): Int {
         val player = context.source as Player
         val target = plugin.server.getPlayer(context.getArgument("player", String::class.java)).orElse(null)
-        if (target == null) {
+        if (target == null || !player.canSee(target)) {
             context.source.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return 0
         }
@@ -252,7 +252,7 @@ class PartyCommand(private val plugin: Aero) {
             return 0
         }
         val target = plugin.server.getPlayer(context.getArgument("player", String::class.java)).orElse(null)
-        if (target == null) {
+        if (target == null || !player.canSee(target)) {
             context.source.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return 0
         }
@@ -288,7 +288,7 @@ class PartyCommand(private val plugin: Aero) {
             return 0
         }
         val target = plugin.server.getPlayer(context.getArgument("player", String::class.java)).orElse(null)
-        if (target == null) {
+        if (target == null || !player.canSee(target)) {
             context.source.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return 0
         }
