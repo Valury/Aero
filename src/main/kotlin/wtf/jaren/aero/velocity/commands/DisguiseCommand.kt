@@ -67,9 +67,11 @@ class DisguiseCommand(private val plugin: Aero) {
         val name = context.getArgument("name", String::class.java)
         if (name.length > 16) {
             player.sendMessage(Component.text("That name is too long.", NamedTextColor.RED))
+            return 0
         }
         if (!Regex("^[A-Za-z_]+\$").matches(name)) {
             player.sendMessage(Component.text("That name contains invalid characters.", NamedTextColor.RED))
+            return 0
         }
         val existingPlayer = plugin.database.getCollection("players")
             .find(Filters.or(

@@ -51,6 +51,7 @@ class NickCommand(val plugin: Aero) : RawCommand {
         }
         if (newNick.length > 16) {
             player.sendMessage(Component.text("That nick is too long.", NamedTextColor.RED))
+            return
         }
         val existing = plugin.database.getCollection("players").find(Filters.eq("nick", newNick)).first()
         if (existing != null) {
