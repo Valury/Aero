@@ -49,6 +49,9 @@ class NickCommand(val plugin: Aero) : RawCommand {
         if (!player.hasPermission("aero.nick.pure")) {
             newNick = "~$newNick"
         }
+        if (newNick.length > 16) {
+            player.sendMessage(Component.text("That nick is too long.", NamedTextColor.RED))
+        }
         val existing = plugin.database.getCollection("players").find(Filters.eq("nick", newNick)).first()
         if (existing != null) {
             player.sendMessage(Component.text("That nick is already in use.", NamedTextColor.RED))
