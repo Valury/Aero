@@ -86,6 +86,7 @@ class Aero @Inject constructor(val server: ProxyServer, val logger: Logger) {
         server.eventManager.register(this, PluginBanListener(this))
         server.eventManager.register(this, PlayerListener(this))
         server.eventManager.register(this, ReplyListener(this))
+        server.eventManager.register(this, PingListener(this))
         server.channelRegistrar.register(MinecraftChannelIdentifier.from("aero:warp_lock"))
         server.channelRegistrar.register(MinecraftChannelIdentifier.from("aero:warp_unlock"))
         server.channelRegistrar.register(MinecraftChannelIdentifier.from("aero:acb"))
