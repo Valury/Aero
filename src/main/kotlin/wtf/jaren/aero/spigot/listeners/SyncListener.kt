@@ -42,7 +42,7 @@ class SyncListener(val plugin: Aero) : PluginMessageListener {
                         plugin.playerManager.handleJoin(onlinePlayer)
                         onlinePlayer.updateDisplayName()
                     } catch (e: Exception) {
-                        onlinePlayer.kickPlayer("${ChatColor.RED}Aero / Something went horribly wrong.")
+                        onlinePlayer.kick(Component.text("Aero / Something went horribly wrong.", NamedTextColor.RED))
                     }
                 }
             }

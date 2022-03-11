@@ -17,21 +17,21 @@ repositories {
     maven("https://nexus.velocitypowered.com/repository/maven-public/")
     maven("https://papermc.io/repo/repository/maven-public/")
     maven("https://oss.sonatype.org/content/repositories/snapshots/")
-    maven("https://jitpack.io/")
     maven("https://repo.extendedclip.com/content/repositories/placeholderapi/")
     maven("https://m2.dv8tion.net/releases")
     maven("https://repo.viaversion.com/")
+    maven("https://jitpack.io/")
 }
 
 dependencies {
     implementation(kotlin("stdlib-jdk8"))
 
-    compileOnly("com.velocitypowered:velocity-api:3.1.1")
-    kapt("com.velocitypowered:velocity-api:3.1.1")
+    compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
+    kapt("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
 
     compileOnly("wtf.jaren.valury:valury-api:1.17.1-R0.1-SNAPSHOT")
 
-    compileOnly("net.luckperms:api:5.3")
+    compileOnly("net.luckperms:api:5.4")
 
     implementation("org.mongodb:mongodb-driver-sync:4.5.0")
 
@@ -39,19 +39,17 @@ dependencies {
 
     compileOnly("com.github.plan-player-analytics:Plan:5.4.1366")
 
-    compileOnly("net.luckperms:api:5.3")
+    compileOnly("net.luckperms:api:5.4")
 
-    compileOnly("me.clip:placeholderapi:2.10.10")
+    compileOnly("me.clip:placeholderapi:2.11.1")
 
-    implementation("net.dv8tion:JDA:5.0.0-alpha.5") {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.9") {
         exclude(module = "opus-java")
     }
 
     compileOnly("com.github.MilkBowl:VaultAPI:1.7.1")
 
-    compileOnly("com.viaversion:viaversion-api:4.1.1")
-
-    implementation("net.kyori:adventure-platform-bukkit:4.0.1")
+    compileOnly("com.viaversion:viaversion-api:4.2.1")
 }
 
 publishing {

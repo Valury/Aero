@@ -52,14 +52,14 @@ class PlayerManager(private val plugin: Aero) {
         }
         for (onlinePlayer in Bukkit.getOnlinePlayers()) {
             if (!player.aero.vanished || onlinePlayer.hasPermission("aero.vanish")) {
-                onlinePlayer.showPlayer(player)
+                onlinePlayer.showPlayer(plugin, player)
             } else {
-                onlinePlayer.hidePlayer(player)
+                onlinePlayer.hidePlayer(plugin, player)
             }
             if (!onlinePlayer.aero.vanished || player.hasPermission("aero.vanish")) {
-                player.showPlayer(onlinePlayer)
+                player.showPlayer(plugin, onlinePlayer)
             } else {
-                player.hidePlayer(onlinePlayer)
+                player.hidePlayer(plugin, onlinePlayer)
             }
         }
         player.updateDisplayName()
@@ -71,6 +71,6 @@ class PlayerManager(private val plugin: Aero) {
                 plugin.guildManager.handlePlayerQuit(player)
                 players.remove(player.uniqueId)
             }
-        }, 5L);
+        }, 5L)
     }
 }

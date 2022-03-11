@@ -2,14 +2,14 @@ package wtf.jaren.aero.spigot.utils
 
 object MathUtils {
     fun gcd(a: Int, b: Int): Int {
-        var a = a
-        var b = b
+        var la = a
+        var lb = b
         while (b > 0) {
-            val temp = b
-            b = a % b // % is remainder
-            a = temp
+            val temp = lb
+            lb = la % lb // % is remainder
+            la = temp
         }
-        return a
+        return la
     }
 
     fun gcd(input: IntArray): Int {

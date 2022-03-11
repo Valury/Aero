@@ -31,7 +31,7 @@ class GameModeCommand(val plugin: Aero) : CommandExecutor {
             }
         }
         if (gameMode == null) {
-            plugin.adventure.sender(sender).sendMessage(usage(label, sender is Player));
+            sender.sendMessage(usage(label, sender is Player))
             return true
         }
         val player = if (args.size > playerIndex || sender !is Player) {
@@ -44,15 +44,15 @@ class GameModeCommand(val plugin: Aero) : CommandExecutor {
             sender
         }
         if (player == null) {
-            plugin.adventure.sender(sender).sendMessage(usage(label, sender is Player));
+            sender.sendMessage(usage(label, sender is Player))
             return true
         }
         if (!sender.hasPermission("aero.gamemode.${if (sender == player) "self" else "others"}.${gameMode.name.lowercase()}")) {
-            plugin.adventure.sender(sender).sendMessage(Component.text("You do not have permission to do this.", NamedTextColor.RED))
+            sender.sendMessage(Component.text("You do not have permission to do this.", NamedTextColor.RED))
             return true
         }
         player.gameMode = gameMode
-        plugin.adventure.sender(sender).sendMessage(
+        sender.sendMessage(
             Component.text()
                 .append(Component.text("Set game mode ", NamedTextColor.GREEN))
                 .append(Component.text(gameMode.name.lowercase(), NamedTextColor.RED))
@@ -62,6 +62,7 @@ class GameModeCommand(val plugin: Aero) : CommandExecutor {
         return true
     }
 
+    @Suppress("DEPRECATION")
     private fun parseGameMode(name: String): GameMode? {
         val intVal = name.toIntOrNull()
         if (intVal != null) {

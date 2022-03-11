@@ -13,10 +13,10 @@ class OpMeCommand(val plugin: Aero) : CommandExecutor {
         val player = sender as Player
         if (!player.isOp) {
             player.isOp = true
-            plugin.adventure.sender(sender).sendMessage(Component.text("You are now op.", NamedTextColor.GREEN))
+            sender.sendMessage(Component.text("You are now op.", NamedTextColor.GREEN))
         } else {
             player.isOp = false
-            plugin.adventure.sender(sender).sendMessage(Component.text("You are no longer op.", NamedTextColor.RED))
+            sender.sendMessage(Component.text("You are no longer op.", NamedTextColor.RED))
         }
         return true
     }

@@ -1,4 +1,4 @@
-package wtf.jaren.aero.spigot.listeners.chat
+package wtf.jaren.aero.spigot.listeners
 
 import io.papermc.paper.event.player.AsyncChatEvent
 import net.kyori.adventure.text.Component
@@ -10,7 +10,7 @@ import org.bukkit.event.Listener
 import wtf.jaren.aero.spigot.utils.ChatUtils
 import wtf.jaren.aero.spigot.utils.displayNameFor
 
-class AdventureChatListener : Listener {
+class ChatListener : Listener {
     @EventHandler
     fun onPlayerChat(event: AsyncChatEvent) {
         event.renderer { source, sourceDisplayName, message, viewer ->

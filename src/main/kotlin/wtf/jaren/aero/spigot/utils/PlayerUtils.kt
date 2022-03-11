@@ -85,5 +85,5 @@ fun Player.displayNameFor(player: Player): TextComponent {
 }
 
 fun Player.updateDisplayName() {
-    this.setDisplayName(this.prefix + (this.aero.effectiveNick ?: this.name) + this.suffix)
+    this.displayName(LegacyComponentSerializer.legacySection().deserialize(this.prefix + (this.aero.effectiveNick ?: this.name) + this.suffix))
 }

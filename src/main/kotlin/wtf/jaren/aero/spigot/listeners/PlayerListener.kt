@@ -4,7 +4,6 @@ import net.kyori.adventure.identity.Identity
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
-import org.bukkit.ChatColor
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -25,7 +24,7 @@ class PlayerListener(private val plugin: Aero) : Listener {
             plugin.playerManager.handlePreLogin(event.uniqueId)
         } catch (e: Exception) {
             e.printStackTrace()
-            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, "${ChatColor.RED}Aero / Something went horribly wrong.")
+            event.disallow(AsyncPlayerPreLoginEvent.Result.KICK_OTHER, Component.text("Aero / Something went horribly wrong.", NamedTextColor.RED))
         }
     }
 
@@ -33,11 +32,11 @@ class PlayerListener(private val plugin: Aero) : Listener {
     fun onPlayerJoin(event: PlayerJoinEvent) {
         try {
             plugin.playerManager.handleJoin(event.player)
-            event.joinMessage = null
+            event.joinMessage(null)
             if (!event.player.aero.vanished) {
                 for (onlinePlayer in plugin.playerManager.players.values) {
                     Bukkit.getPlayer(onlinePlayer._id)?.apply {
-                        plugin.adventure.player(this).sendMessage(
+                        this.sendMessage(
                             Identity.identity(event.player.uniqueId), Component.text()
                                 .append(event.player.displayNameFor(this))
                                 .append(Component.text(" joined the game.", NamedTextColor.YELLOW))
@@ -47,7 +46,7 @@ class PlayerListener(private val plugin: Aero) : Listener {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            event.player.kickPlayer("${ChatColor.RED}Aero / Something went horribly wrong.")
+            event.player.kick(Component.text("Aero / Something went horribly wrong.", NamedTextColor.RED))
         }
     }
 
@@ -55,11 +54,11 @@ class PlayerListener(private val plugin: Aero) : Listener {
     fun onPlayerQuit(event: PlayerQuitEvent) {
         try {
             event.player.isOp = false
-            event.quitMessage = null
+            event.quitMessage(null)
             if (!event.player.aero.vanished) {
                 for (onlinePlayer in plugin.playerManager.players.values) {
                     Bukkit.getPlayer(onlinePlayer._id)?.apply {
-                        plugin.adventure.player(this).sendMessage(
+                        this.sendMessage(
                             Identity.identity(event.player.uniqueId), Component.text()
                                 .append(event.player.displayNameFor(this))
                                 .append(Component.text(" left the game.", NamedTextColor.YELLOW))
@@ -84,7 +83,7 @@ class PlayerListener(private val plugin: Aero) : Listener {
     @EventHandler
     fun onPlayerDeath(event: PlayerDeathEvent) {
         if (event.entity.aero.vanished) {
-            event.deathMessage = null
+            event.deathMessage(null)
         }
     }
 }

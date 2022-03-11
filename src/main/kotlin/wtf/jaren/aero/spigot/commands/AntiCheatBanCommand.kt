@@ -12,7 +12,7 @@ import wtf.jaren.aero.spigot.Aero
 class AntiCheatBanCommand(val plugin: Aero) : CommandExecutor {
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<String>): Boolean {
         if (sender is Player) {
-            plugin.adventure.sender(sender).sendMessage(Component.text("Players cannot run this command.", NamedTextColor.RED))
+            sender.sendMessage(Component.text("Players cannot run this command.", NamedTextColor.RED))
             return true
         }
         if (args.isEmpty()) {
@@ -20,7 +20,7 @@ class AntiCheatBanCommand(val plugin: Aero) : CommandExecutor {
         }
         val player = Bukkit.getPlayer(args[0])
         if (player == null) {
-            plugin.adventure.sender(sender).sendMessage(Component.text("Player not found.", NamedTextColor.RED))
+            sender.sendMessage(Component.text("Player not found.", NamedTextColor.RED))
             return true
         }
         player.world.strikeLightningEffect(player.location)
