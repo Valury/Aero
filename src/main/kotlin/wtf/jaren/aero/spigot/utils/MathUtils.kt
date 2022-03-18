@@ -4,7 +4,7 @@ object MathUtils {
     fun gcd(a: Int, b: Int): Int {
         var la = a
         var lb = b
-        while (b > 0) {
+        while (lb > 0) {
             val temp = lb
             lb = la % lb // % is remainder
             la = temp
