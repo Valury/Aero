@@ -37,6 +37,11 @@ class PlayerManager(val plugin: Aero) {
         if (aeroPlayer.disguise != null) {
             disguisedPlayers.add(player)
         }
+        if (aeroPlayer.ip != player.remoteAddress.address.hostAddress) {
+            collection.updateOne(Filters.eq("_id", player.uniqueId), Document("\$set", Document(
+                "ip", player.remoteAddress.address.hostAddress
+            )))
+        }
         aeroPlayers[player] = aeroPlayer
         plugin.guildManager.handlePlayerJoin(aeroPlayer)
     }
