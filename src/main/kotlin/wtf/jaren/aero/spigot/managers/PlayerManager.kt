@@ -10,7 +10,6 @@ import wtf.jaren.aero.spigot.Aero
 import wtf.jaren.aero.spigot.utils.aero
 import wtf.jaren.aero.spigot.utils.updateDisplayName
 import java.util.*
-import kotlin.collections.HashMap
 
 class PlayerManager(private val plugin: Aero) {
     val players = HashMap<UUID, AeroPlayer>()

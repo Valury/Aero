@@ -2,13 +2,12 @@ package wtf.jaren.aero.velocity.managers
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.proxy.Player
 import org.bson.Document
 import wtf.jaren.aero.shared.objects.AeroPlayer
 import wtf.jaren.aero.shared.objects.AeroPlayerPreferences
 import wtf.jaren.aero.velocity.Aero
-import kotlin.collections.HashMap
-import kotlin.collections.HashSet
 
 class PlayerManager(val plugin: Aero) {
     private val aeroPlayers = HashMap<Player, AeroPlayer>()
@@ -38,9 +37,10 @@ class PlayerManager(val plugin: Aero) {
             disguisedPlayers.add(player)
         }
         if (aeroPlayer.ip != player.remoteAddress.address.hostAddress) {
-            collection.updateOne(Filters.eq("_id", player.uniqueId), Document("\$set", Document(
-                "ip", player.remoteAddress.address.hostAddress
-            )))
+            collection.updateOne(
+                Filters.eq("_id", player.uniqueId),
+                Updates.set("ip", player.remoteAddress.address.hostAddress)
+            )
         }
         aeroPlayers[player] = aeroPlayer
         plugin.guildManager.handlePlayerJoin(aeroPlayer)

@@ -1,10 +1,10 @@
 package wtf.jaren.aero.spigot.external
 
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import net.milkbowl.vault.economy.AbstractEconomy
 import net.milkbowl.vault.economy.Economy
 import net.milkbowl.vault.economy.EconomyResponse
-import org.bson.Document
 import org.bukkit.Bukkit
 import org.bukkit.plugin.ServicePriority
 import wtf.jaren.aero.spigot.Aero
@@ -84,11 +84,7 @@ class AeroEconomy(val plugin: Aero) : AbstractEconomy() {
                 Filters.eq("_id", aeroPlayer._id),
                 Filters.gte("balance", realAmount)
             ),
-            Document(
-                "\$inc", Document(
-                    "balance", -realAmount
-                )
-            )
+            Updates.inc("balance", -realAmount)
         )
         return if (updateResult.modifiedCount > 0) {
             aeroPlayer.balance -= realAmount
@@ -113,11 +109,7 @@ class AeroEconomy(val plugin: Aero) : AbstractEconomy() {
         val realAmount = (amount * 100).roundToLong()
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", aeroPlayer._id),
-            Document(
-                "\$inc", Document(
-                    "balance", realAmount
-                )
-            )
+            Updates.inc("balance", realAmount)
         )
         aeroPlayer.balance += realAmount
         return EconomyResponse(amount, aeroPlayer.balance.toDouble().div(100), EconomyResponse.ResponseType.SUCCESS, null)

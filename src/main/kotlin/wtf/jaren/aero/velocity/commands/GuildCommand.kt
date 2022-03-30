@@ -6,9 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.suggestion.SuggestionsBuilder
-import com.mongodb.client.model.Collation
-import com.mongodb.client.model.CollationStrength
-import com.mongodb.client.model.Filters
+import com.mongodb.client.model.*
 import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
@@ -304,16 +302,13 @@ class GuildCommand(private val plugin: Aero) {
         aeroPlayer.guild = AeroPlayerGuild(guild._id, 1)
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", player.uniqueId),
-            Document(
-                "\$set", Document(
-                    "guild", Document("_id", guild._id).append("rank", 1)
-                )
-            )
+            Updates.set("guild", Document("_id", guild._id).append("rank", 1))
         )
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == guild._id) {
                 onlinePlayer.sendMessage(
-                    player.identity(), Component.text()
+                    player.identity(),
+                    Component.text()
                         .append(Guild.PREFIX)
                         .append(aeroPlayer.displayNameFor(onlinePlayer))
                         .append(Component.text(" joined the guild.", Guild.COLOR_SCHEME))
@@ -354,7 +349,8 @@ class GuildCommand(private val plugin: Aero) {
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
-                    player.identity(), Component.text()
+                    player.identity(),
+                    Component.text()
                         .append(Guild.PREFIX)
                         .append(aeroPlayer.displayNameFor(onlinePlayer))
                         .append(Component.text(" left the guild.", Guild.COLOR_SCHEME))
@@ -364,9 +360,8 @@ class GuildCommand(private val plugin: Aero) {
         plugin.guildManager.handlePlayerQuit(player)
         aeroPlayer.guild = null
         plugin.database.getCollection("players").updateOne(
-            Filters.eq("_id", player.uniqueId), Document(
-                "\$unset", Document("guild", true)
-            )
+            Filters.eq("_id", player.uniqueId),
+            Updates.unset("guild")
         )
         player.currentServer.orElse(null)
             ?.sendPluginMessage(MinecraftChannelIdentifier.create("aero", "sync"), SyncUtils.refreshPlayer)
@@ -403,9 +398,8 @@ class GuildCommand(private val plugin: Aero) {
         }
         target.guild = null
         plugin.database.getCollection("players").updateOne(
-            Filters.eq("_id", target._id), Document(
-                "\$unset", Document("guild", true)
-            )
+            Filters.eq("_id", target._id),
+            Updates.unset("guild")
         )
         plugin.server.getPlayer(target._id).ifPresent {
             plugin.guildManager.handlePlayerQuit(it)
@@ -470,14 +464,14 @@ class GuildCommand(private val plugin: Aero) {
             targetGuild.rank++
         }
         plugin.database.getCollection("players").updateOne(
-            Filters.eq("_id", target._id), Document(
-                Document("\$set", Document("guild.rank", targetGuild.rank))
-            )
+            Filters.eq("_id", target._id),
+            Updates.set("guild.rank", targetGuild.rank)
         )
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
-                    Identity.nil(), Component.text()
+                    Identity.nil(),
+                    Component.text()
                         .append(Guild.PREFIX)
                         .append(target.displayNameFor(onlinePlayer))
                         .append(
@@ -537,14 +531,14 @@ class GuildCommand(private val plugin: Aero) {
             targetGuild.rank--
         }
         plugin.database.getCollection("players").updateOne(
-            Filters.eq("_id", target._id), Document(
-                Document("\$set", Document("guild.rank", targetGuild.rank))
-            )
+            Filters.eq("_id", target._id),
+            Updates.set("guild.rank", targetGuild.rank)
         )
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
-                    Identity.nil(), Component.text()
+                    Identity.nil(),
+                    Component.text()
                         .append(Guild.PREFIX)
                         .append(target.displayNameFor(onlinePlayer))
                         .append(Component.text(" was demoted to ${guild.ranks[targetGuild.rank]}.", Guild.COLOR_SCHEME))
@@ -619,7 +613,7 @@ class GuildCommand(private val plugin: Aero) {
                 Filters.and(
                     Filters.eq("_id", guild._id)
                 ),
-                Document("\$set", Document("name", name))
+                Updates.set("name", name)
             )
             guild.name = name
             val alreadySent = HashSet<RegisteredServer>()
@@ -686,7 +680,7 @@ class GuildCommand(private val plugin: Aero) {
         guild.color = color
         plugin.database.getCollection("guilds").updateOne(
             Filters.eq("_id", guild._id),
-            Document("\$set", Document("color", color.value()))
+            Updates.set("color", color.value())
         )
         val alreadySent = HashSet<RegisteredServer>()
         for (onlinePlayer in Aero.instance.server.allPlayers) {
@@ -740,7 +734,7 @@ class GuildCommand(private val plugin: Aero) {
                 Filters.eq("_id", player.uniqueId),
                 Filters.gte("balance", Guild.RENAME_COST)
             ),
-            Document("\$inc", Document("balance", -Guild.RENAME_COST))
+            Updates.inc("balance", -Guild.RENAME_COST)
         )
         if (updateResult.matchedCount == 0L) {
             player.sendMessage(Component.text("You do not have enough coins.", NamedTextColor.RED))
@@ -749,7 +743,7 @@ class GuildCommand(private val plugin: Aero) {
         player.aero.balance -= Guild.RENAME_COST
         plugin.database.getCollection("guilds").updateOne(
             Filters.eq("_id", guild._id),
-            Document("\$set", Document("name", name))
+            Updates.set("name", name)
         )
         guild.name = name
         val alreadySent = HashSet<RegisteredServer>()
@@ -792,9 +786,8 @@ class GuildCommand(private val plugin: Aero) {
         }
         guild.public = true
         plugin.database.getCollection("guilds").updateOne(
-            Filters.eq("_id", guild._id), Document(
-                Document("\$set", Document("public", true))
-            )
+            Filters.eq("_id", guild._id),
+            Updates.set("public", true)
         )
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
@@ -827,9 +820,8 @@ class GuildCommand(private val plugin: Aero) {
         }
         guild.public = false
         plugin.database.getCollection("guilds").updateOne(
-            Filters.eq("_id", guild._id), Document(
-                Document("\$set", Document("public", false))
-            )
+            Filters.eq("_id", guild._id),
+            Updates.set("public", false)
         )
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
@@ -892,9 +884,8 @@ class GuildCommand(private val plugin: Aero) {
         }
         val guild = playerGuild._id
         plugin.database.getCollection("players").updateMany(
-            Filters.eq("guild._id", guild), Document(
-                "\$unset", Document("guild", true)
-            )
+            Filters.eq("guild._id", guild),
+            Updates.unset("guild")
         )
         for (onlinePlayer in Aero.instance.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == guild) {
@@ -927,37 +918,18 @@ class GuildCommand(private val plugin: Aero) {
         }
         val guilds = plugin.database.getCollection("guilds").aggregate(
             listOf(
-                Document(
-                    "\$match",
-                    Filters.not(Filters.eq("name", null))
+                Aggregates.match(Filters.not(Filters.eq("name", null))),
+                Aggregates.lookup("players", "_id", "guild._id", "players"),
+                Aggregates.unwind("\$players"),
+                Aggregates.group(
+                    "\$_id",
+                    Accumulators.first("name", "\$name"),
+                    Accumulators.first("color", "\$color"),
+                    Accumulators.sum("balance", "\$players.balance")
                 ),
-                Document(
-                    "\$lookup",
-                    Document("from", "players")
-                        .append("localField", "_id")
-                        .append("foreignField", "guild._id")
-                        .append("as", "players")
-                ),
-                Document("\$unwind", "\$players"),
-                Document(
-                    "\$group",
-                    Document("_id", "\$_id")
-                        .append(
-                            "name",
-                            Document("\$first", "\$name")
-                        )
-                        .append(
-                            "color",
-                            Document("\$first", "\$color")
-                        )
-                        .append(
-                            "balance",
-                            Document("\$sum", "\$players.balance")
-                        )
-                ),
-                Document("\$sort", Document("balance", -1)),
-                Document("\$skip", (page - 1) * 10),
-                Document("\$limit", 10)
+                Aggregates.sort(Sorts.descending("balance")),
+                Aggregates.skip((page - 1) * 10),
+                Aggregates.limit(10)
             )
         )
         val guildCount = plugin.database.getCollection("guilds").countDocuments(Filters.not(Filters.eq("name", null)))

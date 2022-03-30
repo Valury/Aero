@@ -6,12 +6,11 @@ import org.bukkit.plugin.java.JavaPlugin
 import wtf.jaren.aero.spigot.commands.AntiCheatBanCommand
 import wtf.jaren.aero.spigot.commands.GameModeCommand
 import wtf.jaren.aero.spigot.commands.OpMeCommand
+import wtf.jaren.aero.spigot.external.AeroEconomy
+import wtf.jaren.aero.spigot.external.PAPIAeroExpansion
 import wtf.jaren.aero.spigot.listeners.*
 import wtf.jaren.aero.spigot.managers.GuildManager
 import wtf.jaren.aero.spigot.managers.PlayerManager
-import wtf.jaren.aero.spigot.external.PAPIAeroExpansion
-import wtf.jaren.aero.spigot.external.AeroEconomy
-import wtf.jaren.aero.spigot.listeners.ChatListener
 import wtf.jaren.aero.spigot.managers.PrefixAnimationManager
 
 class Aero : JavaPlugin() {

@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 import java.util.regex.Pattern
 
 object ChatUtils {
-    val colorsToLegacy = mapOf(
+    private val colorsToLegacy = mapOf(
         NamedTextColor.BLACK to '0',
         NamedTextColor.DARK_BLUE to '1',
         NamedTextColor.DARK_GREEN to '2',

@@ -7,6 +7,7 @@ import com.mojang.brigadier.context.CommandContext
 import com.mongodb.client.model.Collation
 import com.mongodb.client.model.CollationStrength
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.command.BrigadierCommand
 import com.velocitypowered.api.command.CommandSource
 import com.velocitypowered.api.proxy.Player
@@ -86,7 +87,7 @@ class DisguiseCommand(private val plugin: Aero) {
         }
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", player.uniqueId),
-            Document("\$set", Document("disguise.name", name))
+            Updates.set("disguise.name", name)
         )
         player.sendMessage(Component.text("Success! Your new name will appear the next time you login.", NamedTextColor.GREEN))
         return 0
@@ -107,14 +108,16 @@ class DisguiseCommand(private val plugin: Aero) {
         }
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", player.uniqueId),
-            Document("\$set", Document("disguise.properties",
+            Updates.set(
+                "disguise.properties",
                 properties.getAsJsonArray("properties")
-                    .map { val jsonObject = it.asJsonObject
-                        Document("name", jsonObject["name"].asString)
-                            .append("value", jsonObject["value"].asString)
-                            .append("signature", jsonObject["signature"].asString)
-                    }
-            ))
+                .map {
+                    val jsonObject = it.asJsonObject
+                    Document("name", jsonObject["name"].asString)
+                        .append("value", jsonObject["value"].asString)
+                        .append("signature", jsonObject["signature"].asString)
+                }
+            )
         )
         player.sendMessage(Component.text("Success! Your new skin will appear the next time you login.", NamedTextColor.GREEN))
         return 0
@@ -137,7 +140,7 @@ class DisguiseCommand(private val plugin: Aero) {
         }
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", player.uniqueId),
-            Document("\$set", Document("disguise.rank", rank))
+            Updates.set("disguise.rank", rank)
         )
         if (player.aero.disguise == null) {
             player.aero.disguise = AeroDisguise(null, rank, null, null)
@@ -154,7 +157,7 @@ class DisguiseCommand(private val plugin: Aero) {
         val player = context.source as Player
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", player.uniqueId),
-            Document("\$unset", Document("disguise", true))
+            Updates.unset("disguise")
         )
         player.sendMessage(Component.text("Success! Your disguise will reset the next time you login.", NamedTextColor.GREEN))
         return 0

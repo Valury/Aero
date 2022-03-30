@@ -1,12 +1,12 @@
 package wtf.jaren.aero.velocity.commands
 
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.command.RawCommand
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
-import org.bson.Document
 import wtf.jaren.aero.velocity.Aero
 import wtf.jaren.aero.velocity.utils.SyncUtils
 import wtf.jaren.aero.velocity.utils.aero
@@ -18,7 +18,7 @@ class VanishCommand(val plugin: Aero) : RawCommand {
         player.aero.vanished = !player.aero.vanished
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", player.uniqueId),
-            Document("\$set", Document("vanished", player.aero.vanished))
+            Updates.set("vanished", player.aero.vanished)
         )
         player.currentServer.orElse(null)
             ?.sendPluginMessage(MinecraftChannelIdentifier.create("aero", "sync"), SyncUtils.refreshPlayer)

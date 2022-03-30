@@ -3,6 +3,7 @@ package wtf.jaren.aero.velocity.managers
 import com.mongodb.client.model.Collation
 import com.mongodb.client.model.CollationStrength
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import net.kyori.adventure.text.Component
@@ -67,11 +68,7 @@ class GuildManager(val plugin: Aero) {
         )
         plugin.database.getCollection("players").updateOne(
             Filters.eq("_id", leader.uniqueId),
-            Document(
-                "\$set", Document(
-                    "guild", Document("_id", guild._id).append("rank", 0)
-                )
-            )
+            Updates.set("guild", Document("_id", guild._id).append("rank", 0))
         )
         leader.currentServer.orElse(null)
             ?.sendPluginMessage(MinecraftChannelIdentifier.create("aero", "sync"), SyncUtils.refreshPlayer)

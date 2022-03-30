@@ -2,7 +2,6 @@ package wtf.jaren.aero.spigot.external
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion
 import me.clip.placeholderapi.expansion.Relational
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.entity.Player
 import wtf.jaren.aero.spigot.Aero
 import wtf.jaren.aero.spigot.utils.*

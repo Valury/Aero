@@ -6,7 +6,6 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.luckperms.api.LuckPermsProvider
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
-import wtf.jaren.aero.shared.objects.AeroPlayer
 import wtf.jaren.aero.spigot.Aero
 
 

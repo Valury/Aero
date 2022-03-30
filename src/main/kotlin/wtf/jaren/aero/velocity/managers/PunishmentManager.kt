@@ -3,6 +3,7 @@ package wtf.jaren.aero.velocity.managers
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.MongoDatabase
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.proxy.Player
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
@@ -73,14 +74,12 @@ class PunishmentManager(private val plugin: Aero) {
 
     fun applyPunishment(punishment: Punishment) {
         collection.updateMany(
-            Document("player", punishment.player.uuid)
-                .append("type", punishment.type.name)
-                .append(
-                    "expires", Document(
-                        "\$gte", Date(System.currentTimeMillis())
-                    )
-                ),
-            Document("\$set", Document("revoked", true))
+            Filters.and(
+                Filters.eq("player", punishment.player.uuid),
+                Filters.eq("type", punishment.type.name),
+                Filters.gte("expires", Date(System.currentTimeMillis()))
+            ),
+            Updates.set("revoked", true)
         )
         collection.insertOne(punishment.toDocument())
         val broadcast = Component.text()
@@ -124,11 +123,8 @@ class PunishmentManager(private val plugin: Aero) {
 
     fun revokePunishment(punishment: Punishment, operator: String) {
         collection.updateOne(
-            Document("_id", punishment._id), Document(
-                "\$set", Document(
-                    "revoked", true
-                )
-            )
+            Filters.eq("_id", punishment._id),
+            Updates.set("revoked", true)
         )
         val broadcast = Component.text()
             .append(Component.text(operator, NamedTextColor.LIGHT_PURPLE))

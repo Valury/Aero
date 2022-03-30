@@ -1,12 +1,12 @@
 package wtf.jaren.aero.velocity.commands
 
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.command.RawCommand
 import com.velocitypowered.api.proxy.Player
 import com.velocitypowered.api.proxy.messages.MinecraftChannelIdentifier
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
-import org.bson.Document
 import wtf.jaren.aero.velocity.Aero
 import wtf.jaren.aero.velocity.utils.SyncUtils
 import wtf.jaren.aero.velocity.utils.aero
@@ -29,16 +29,14 @@ class NickCommand(val plugin: Aero) : RawCommand {
             if (player.aero.disguise == null) {
                 player.aero.nick = null
                 plugin.database.getCollection("players").updateOne(
-                    Filters.eq("_id", player.uniqueId), Document(
-                        "\$unset", Document("nick", true)
-                    )
+                    Filters.eq("_id", player.uniqueId),
+                    Updates.unset("nick")
                 )
             } else {
                 player.aero.disguise!!.nick = null
                 plugin.database.getCollection("players").updateOne(
-                    Filters.eq("_id", player.uniqueId), Document(
-                        "\$unset", Document("disguise.nick", true)
-                    )
+                    Filters.eq("_id", player.uniqueId),
+                    Updates.unset("disguise.nick")
                 )
             }
             player.currentServer.orElse(null)
@@ -61,16 +59,14 @@ class NickCommand(val plugin: Aero) : RawCommand {
         if (player.aero.disguise == null) {
             player.aero.nick = newNick
             plugin.database.getCollection("players").updateOne(
-                Filters.eq("_id", player.uniqueId), Document(
-                    "\$set", Document("nick", newNick)
-                )
+                Filters.eq("_id", player.uniqueId),
+                Updates.set("nick", newNick)
             )
         } else {
             player.aero.disguise!!.nick = newNick
             plugin.database.getCollection("players").updateOne(
-                Filters.eq("_id", player.uniqueId), Document(
-                    "\$set", Document("disguise.nick", newNick)
-                )
+                Filters.eq("_id", player.uniqueId),
+                Updates.set("disguise.nick", newNick)
             )
         }
         player.sendMessage(Component.text("Success!", NamedTextColor.GREEN))

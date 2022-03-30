@@ -1,6 +1,7 @@
 package wtf.jaren.aero.velocity.listeners
 
 import com.mongodb.client.model.Filters
+import com.mongodb.client.model.Updates
 import com.velocitypowered.api.event.ResultedEvent
 import com.velocitypowered.api.event.Subscribe
 import com.velocitypowered.api.event.connection.DisconnectEvent
@@ -9,7 +10,6 @@ import com.velocitypowered.api.event.player.GameProfileRequestEvent
 import com.velocitypowered.api.util.GameProfile
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.NamedTextColor
-import org.bson.Document
 import wtf.jaren.aero.shared.objects.AeroPlayer
 import wtf.jaren.aero.shared.objects.Guild
 import wtf.jaren.aero.velocity.Aero
@@ -30,7 +30,7 @@ class PlayerListener(private val plugin: Aero) {
         if (player.name != event.originalProfile.name) {
             plugin.database.getCollection("players").updateOne(
                 Filters.eq("_id", event.originalProfile.id),
-                Document("\$set", Document("name", event.originalProfile.name))
+                Updates.set("name", event.originalProfile.name)
             )
         }
         val disguise = player.disguise
