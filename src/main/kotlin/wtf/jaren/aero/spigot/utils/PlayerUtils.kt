@@ -50,27 +50,22 @@ val Player.suffix: String
     }
 val Player.actualProtocolVersion: Int
     get() {
-        if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
-            return ViaVersionUtil.getPlayerVersion(this)
-        }
-        return try {
-            Player::class.java.getMethod("getProtocolVersion").invoke(player) as Int
-        } catch (_: Exception) {
-            -1
+        return if (Bukkit.getPluginManager().isPluginEnabled("ViaVersion")) {
+            ViaVersionUtil.getPlayerVersion(this)
+        } else {
+            this.protocolVersion
         }
     }
 fun Player.prefixFor(player: Player): String {
     return if (player.actualProtocolVersion < 393) {
         ChatUtils.convertUnicodePrefixToColoredText(this.prefix)
-    } else if (ServerUtil.protocolVersion < 393) {
-        return ChatUtils.downsampleHexColors(this.prefix)
     } else {
         return this.prefix
     }
 }
 
 fun Player.suffixFor(player: Player): String {
-    return if (player.actualProtocolVersion >= 393 && ServerUtil.protocolVersion >= 393) this.suffix else ChatUtils.downsampleHexColors(this.suffix)
+    return if (player.actualProtocolVersion >= 393) this.suffix else ChatUtils.downsampleHexColors(this.suffix)
 }
 
 fun Player.displayNameFor(player: Player): TextComponent {

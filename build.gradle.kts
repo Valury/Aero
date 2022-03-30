@@ -29,11 +29,11 @@ dependencies {
     compileOnly("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
     kapt("com.velocitypowered:velocity-api:3.1.2-SNAPSHOT")
 
-    compileOnly("wtf.jaren.valury:valury-api:1.17.1-R0.1-SNAPSHOT")
+    compileOnly("wtf.jaren.valury:valury-api:1.18.2-R0.1-SNAPSHOT")
 
     compileOnly("net.luckperms:api:5.4")
 
-    implementation("org.mongodb:mongodb-driver-sync:4.5.0")
+    implementation("org.mongodb:mongodb-driver-sync:4.5.1")
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.2.Final")
 

@@ -55,7 +55,7 @@ class PAPIAeroExpansion(val plugin: Aero) : PlaceholderExpansion(), Relational {
             if ((identifier == "prefix_tab" || prefix.length <= 10 || one.actualProtocolVersion >= 393) && two.aero.vanished) {
                 prefix = "§7[V] $prefix";
             }
-            if ((one.actualProtocolVersion < 735 || ServerUtil.protocolVersion < 735) && prefix.contains("§#")) {
+            if ((one.actualProtocolVersion < 735) && prefix.contains("§#")) {
                 prefix = ChatUtils.downsampleHexColors(prefix)
             }
             return prefix.replace('§', '&');
