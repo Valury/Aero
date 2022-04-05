@@ -1,8 +1,8 @@
 plugins {
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    kotlin("jvm") version "1.6.10"
-    kotlin("kapt") version "1.6.10"
+    kotlin("jvm") version "1.6.20"
+    kotlin("kapt") version "1.6.20"
 }
 
 repositories {
