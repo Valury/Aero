@@ -30,7 +30,7 @@ class PlayerManager(private val plugin: Aero) {
                 return aeroPlayer
             }
         }
-        return AeroPlayer.fromDocument(Aero.instance.database.getCollection("players")
+        return AeroPlayer.fromDocument(plugin.database.getCollection("players")
             .find(Filters.eq("name", player))
             .collation(Collation.builder().locale("en").collationStrength(CollationStrength.SECONDARY).build())
             .first() ?: return null)

@@ -255,7 +255,7 @@ class GuildCommand(private val plugin: Aero) {
             )
             return 0
         }
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == guild._id) {
                 onlinePlayer.sendMessage(
                     player.identity(), Component.text()
@@ -304,7 +304,7 @@ class GuildCommand(private val plugin: Aero) {
             Filters.eq("_id", player.uniqueId),
             Updates.set("guild", Document("_id", guild._id).append("rank", 1))
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == guild._id) {
                 onlinePlayer.sendMessage(
                     player.identity(),
@@ -346,7 +346,7 @@ class GuildCommand(private val plugin: Aero) {
                 return 0
             }
         }
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     player.identity(),
@@ -406,7 +406,7 @@ class GuildCommand(private val plugin: Aero) {
             it.currentServer.orElse(null)
                 ?.sendPluginMessage(MinecraftChannelIdentifier.create("aero", "sync"), SyncUtils.refreshPlayer)
         }
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     Identity.nil(), Component.text()
@@ -467,7 +467,7 @@ class GuildCommand(private val plugin: Aero) {
             Filters.eq("_id", target._id),
             Updates.set("guild.rank", targetGuild.rank)
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     Identity.nil(),
@@ -534,7 +534,7 @@ class GuildCommand(private val plugin: Aero) {
             Filters.eq("_id", target._id),
             Updates.set("guild.rank", targetGuild.rank)
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     Identity.nil(),
@@ -617,7 +617,7 @@ class GuildCommand(private val plugin: Aero) {
             )
             guild.name = name
             val alreadySent = HashSet<RegisteredServer>()
-            for (onlinePlayer in Aero.instance.server.allPlayers) {
+            for (onlinePlayer in plugin.server.allPlayers) {
                 if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                     onlinePlayer.sendMessage(
                         Identity.nil(), Component.text()
@@ -683,7 +683,7 @@ class GuildCommand(private val plugin: Aero) {
             Updates.set("color", color.value())
         )
         val alreadySent = HashSet<RegisteredServer>()
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.currentServer.ifPresent {
                     if (alreadySent.contains(it.server)) return@ifPresent
@@ -747,7 +747,7 @@ class GuildCommand(private val plugin: Aero) {
         )
         guild.name = name
         val alreadySent = HashSet<RegisteredServer>()
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     Identity.nil(), Component.text()
@@ -789,7 +789,7 @@ class GuildCommand(private val plugin: Aero) {
             Filters.eq("_id", guild._id),
             Updates.set("public", true)
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     Identity.nil(), Component.text()
@@ -823,7 +823,7 @@ class GuildCommand(private val plugin: Aero) {
             Filters.eq("_id", guild._id),
             Updates.set("public", false)
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 onlinePlayer.sendMessage(
                     Identity.nil(), Component.text()
@@ -853,7 +853,7 @@ class GuildCommand(private val plugin: Aero) {
                 .append(Guild.PREFIX)
                 .append(Component.text("You requested your guild to teleport to you.", Guild.COLOR_SCHEME))
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == playerGuild._id) {
                 if (player == onlinePlayer) continue
                 if (plugin.warpManager.createWarpRequest(onlinePlayer, player)) {
@@ -887,7 +887,7 @@ class GuildCommand(private val plugin: Aero) {
             Filters.eq("guild._id", guild),
             Updates.unset("guild")
         )
-        for (onlinePlayer in Aero.instance.server.allPlayers) {
+        for (onlinePlayer in plugin.server.allPlayers) {
             if (onlinePlayer.aero.guild?._id == guild) {
                 onlinePlayer.sendMessage(
                     Identity.nil(), Component.text()

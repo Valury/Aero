@@ -13,7 +13,7 @@ import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 import java.util.*
 
-class WarpListener : PluginMessageListener, Listener {
+class WarpListener(val plugin: Aero) : PluginMessageListener, Listener {
     var pendingWarps = HashMap<UUID, PendingWarp>()
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -38,7 +38,7 @@ class WarpListener : PluginMessageListener, Listener {
                 }
             } else {
                 val bukkitTask = Bukkit.getScheduler().runTaskLaterAsynchronously(
-                    Aero.instance,
+                    plugin,
                     Runnable { pendingWarps.remove(uuid) },
                     100L
                 )

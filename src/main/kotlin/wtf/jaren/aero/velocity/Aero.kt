@@ -45,7 +45,7 @@ class Aero @Inject constructor(val server: ProxyServer, val logger: Logger) {
 
     val partyManager = PartyManager(this)
 
-    val warpManager = WarpManager()
+    val warpManager = WarpManager(this)
 
     val replyManager = ReplyManager()
 

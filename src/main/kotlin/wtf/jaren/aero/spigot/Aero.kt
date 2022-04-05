@@ -36,7 +36,7 @@ class Aero : JavaPlugin() {
         getCommand("gamemode")!!.setExecutor(GameModeCommand(this))
         server.pluginManager.registerEvents(PlayerListener(this), this)
         server.pluginManager.registerEvents(ChatListener(), this)
-        val warpListener = WarpListener()
+        val warpListener = WarpListener(this)
         server.pluginManager.registerEvents(warpListener, this)
         server.messenger.registerIncomingPluginChannel(this, "aero:warp", warpListener)
         server.messenger.registerIncomingPluginChannel(this, "aero:sync", SyncListener(this))

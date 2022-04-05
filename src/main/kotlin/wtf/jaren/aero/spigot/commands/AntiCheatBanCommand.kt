@@ -24,7 +24,7 @@ class AntiCheatBanCommand(val plugin: Aero) : CommandExecutor {
             return true
         }
         player.world.strikeLightningEffect(player.location)
-        player.sendPluginMessage(Aero.instance, "aero:acb", byteArrayOf())
+        player.sendPluginMessage(plugin, "aero:acb", byteArrayOf())
         return true
     }
 }

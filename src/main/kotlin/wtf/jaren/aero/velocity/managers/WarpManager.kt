@@ -5,7 +5,7 @@ import wtf.jaren.aero.velocity.Aero
 import wtf.jaren.aero.velocity.objects.WarpRequest
 import java.util.concurrent.TimeUnit
 
-class WarpManager {
+class WarpManager(val plugin: Aero) {
     private val locked = HashSet<Player>()
     private val requests = HashSet<WarpRequest>()
     fun lock(player: Player): Boolean {
@@ -24,7 +24,7 @@ class WarpManager {
         if (requests.find { it.player == player && it.target == target } != null) {
             return false
         }
-        val task = Aero.instance.server.scheduler.buildTask(Aero.instance) {
+        val task = plugin.server.scheduler.buildTask(plugin) {
             requests.removeIf { it.player == player && it.target == target }
         }.delay(5, TimeUnit.MINUTES).schedule()
         requests.add(WarpRequest(player, target, task))

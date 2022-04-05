@@ -21,7 +21,7 @@ class PAPIAeroExpansion(val plugin: Aero) : PlaceholderExpansion(), Relational {
 
     override fun onPlaceholderRequest(player: Player, identifier: String): String? {
         if (identifier == "server") {
-            return Aero.instance.serverName
+            return plugin.serverName
         }
         if (identifier == "prefix") {
             return (if (player.aero.vanished) "&7[V] " else "") + player.prefix.replace('§', '&')
