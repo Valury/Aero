@@ -1,8 +1,8 @@
 plugins {
     id("maven-publish")
     id("com.github.johnrengelman.shadow") version "7.1.2"
-    kotlin("jvm") version "1.6.20"
-    kotlin("kapt") version "1.6.20"
+    kotlin("jvm") version "1.6.21"
+    kotlin("kapt") version "1.6.21"
 }
 
 repositories {
@@ -33,17 +33,17 @@ dependencies {
 
     compileOnly("net.luckperms:api:5.4")
 
-    implementation("org.mongodb:mongodb-driver-sync:4.5.1")
+    implementation("org.mongodb:mongodb-driver-sync:4.6.0")
 
     implementation("org.ocpsoft.prettytime:prettytime:5.0.2.Final")
 
-    compileOnly("com.github.plan-player-analytics:Plan:5.4.1366")
+    compileOnly("com.github.plan-player-analytics:Plan:5.4.1633")
 
     compileOnly("net.luckperms:api:5.4")
 
     compileOnly("me.clip:placeholderapi:2.11.1")
 
-    implementation("net.dv8tion:JDA:5.0.0-alpha.9") {
+    implementation("net.dv8tion:JDA:5.0.0-alpha.10") {
         exclude(module = "opus-java")
     }
 
