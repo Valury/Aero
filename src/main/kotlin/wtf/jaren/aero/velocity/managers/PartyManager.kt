@@ -4,8 +4,7 @@ import com.velocitypowered.api.proxy.Player
 import wtf.jaren.aero.velocity.Aero
 import wtf.jaren.aero.velocity.objects.Party
 
-class PartyManager(plugin: Aero) {
-    val plugin: Aero
+class PartyManager(val plugin: Aero) {
     private val parties = HashSet<Party>()
     fun createParty(leader: Player): Party {
         val party = Party(this, leader)
@@ -24,9 +23,5 @@ class PartyManager(plugin: Aero) {
 
     fun disbandParty(party: Party) {
         parties.remove(party)
-    }
-
-    init {
-        this.plugin = plugin
     }
 }
